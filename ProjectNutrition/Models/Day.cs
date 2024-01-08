@@ -1,7 +1,5 @@
-﻿namespace ProjectNutrition
+﻿namespace ProjectNutrition.Models
 {
-    public static partial class MauiProgram
-    {
         public class Day
         {
             public int Id { get; set; }
@@ -10,5 +8,4 @@
             public IEnumerable<EatenMeal> EatenMeals { get; set; } = new List<EatenMeal>();
             public IEnumerable<EatenProducts> EatenProducts { get; set; } = new List<EatenProducts>();
         }
-    }
 }

@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:system="clr-namespace:System;assembly=netstandard"
+             xmlns:Pages="clr-namespace:ProjectNutrition.Pages"
+             xmlns:Models="clr-namespace:ProjectNutrition.Models"
+             x:Class="ProjectNutrition.Pages.MainPage"
+             x:DataType="Pages:MainPage">
+
+    <ContentPage.Resources>
+        <Style TargetType="Border">
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Stroke" Value="#AAA" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 5" />
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="HorizontalTextAlignment" Value="Center" />
+            <Setter Property="VerticalTextAlignment" Value="Center" />
+        </Style>
+
+        <Style TargetType="Entry" x:Key="nutritionEntry">
+            <Setter Property="WidthRequest" Value="150" />
+            <Setter Property="HorizontalTextAlignment" Value="Center" />
+            <Setter Property="Grid.Column" Value="1" />
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout>
+                <CollectionView x:Name="ProductCollection" SelectionChanged="OnProductselect">
+                    <CollectionView.Header>
+                        <Grid ColumnDefinitions=".57*, .22*, .21*">
+                            <Border Grid.Column="0">
+                                <Label Text="Name" />
+                            </Border>
+
+                            <Border Grid.Column="1">
+                                <Label Text="Calories" />
+                            </Border>
+
+                            <Border Grid.Column="2">
+                                <Label Text="Protein" />
+                            </Border>
+                        </Grid>
+                    </CollectionView.Header>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="Models:Product">
+                            <SwipeView>
+                                <SwipeView.RightItems>
+                                    <SwipeItemView>
+                                        <Grid WidthRequest="60" Padding="10">
+                                            <ImageButton Source="trashcan.png" Clicked="OnDeleteProductClicked" />
+                                        </Grid>
+                                    </SwipeItemView>
+                                </SwipeView.RightItems>
+
+                                <SwipeView.LeftItems>
+                                    <SwipeItemView>
+                                        <Grid WidthRequest="60" Padding="10">
+                                            <ImageButton Source="pen.png" Clicked="OnEditProductClicked" />
+                                        </Grid>
+                                    </SwipeItemView>
+                                </SwipeView.LeftItems>
+
+                                <Grid ColumnDefinitions=".57*, .22*, .21*">
+                                    <Border Grid.Column="0">
+                                        <Label Text="{Binding Name}" />
+                                    </Border>
+
+                                    <Border Grid.Column="1">
+                                        <Label Text="{Binding Calories}" />
+                                    </Border>
+
+                                    <Border Grid.Column="2">
+                                        <Label Text="{Binding Proteins}" />
+                                    </Border>
+                                </Grid>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Button Text="+" Margin="0, 5, 0, 10" Background="White" Clicked="OnAddNewProductBtnClicked"/>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Grid x:Name="addNewProductWrapper"
+              BackgroundColor="Black" 
+              IsVisible="False" 
+              ZIndex="100">
+
+            <Border Padding="10" Margin="50" VerticalOptions="Center">
+                <VerticalStackLayout x:DataType="Models:Product">
+                    <Grid ColumnDefinitions=".5*, .5*" Margin="0, 5, 0, 5">
+                        <Label Text="Name: " />
+                        <Entry Style="{StaticResource nutritionEntry}" Text="{Binding Name}" />
+                    </Grid>
+
+
+                    <Grid ColumnDefinitions=".5*, .5*" Margin="0, 5, 0, 5">
+                        <Label Text="Calories: " />
+                        <Entry Style="{StaticResource nutritionEntry}" Text="{Binding Calories}" />
+                    </Grid>
+
+                    <Grid ColumnDefinitions=".5*, .5*" Margin="0, 5, 0, 5">
+                        <Label Text="Protein: " />
+                        <Entry Style="{StaticResource nutritionEntry}" Text="{Binding Proteins}" />
+                    </Grid>
+
+                    <Grid ColumnDefinitions=".5*, .5*" Margin="0, 5, 0, 5">
+                        <Label Text="Carbs: " />
+                        <Entry Style="{StaticResource nutritionEntry}" Text="{Binding Carbs}" />
+                    </Grid>
+
+                    <Grid ColumnDefinitions=".5*, .5*" Margin="0, 5, 0, 5">
+                        <Label Text="Fibers: " />
+                        <Entry Style="{StaticResource nutritionEntry}" Text="{Binding Fibers}" />
+                    </Grid>
+
+                    <Grid ColumnDefinitions=".5*, .5*">
+                        <Label Text="Fats: " />
+                        <Entry Style="{StaticResource nutritionEntry}" Text="{Binding Fats}" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+
+        <Grid x:Name="ProductDeletionConfirmDialogWrapper" IsVisible="False">
+            <Button BackgroundColor="White"
+                    Opacity=".5"
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type Pages:MainPage}}, Path=CancelProductDeletion}"/>
+
+            <Border StrokeShape="RoundRectangle 25"
+                    StrokeThickness="3"
+                    Stroke="White"
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Center"
+                    Padding="25"
+                    Background="Black">
+
+                <VerticalStackLayout x:DataType="Models:Product" Spacing="15">
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <FormattedString.Spans>
+                                    <Span Text="Are you sure you want to delete: " FontSize="Subtitle"/>
+                                    <Span Text="{x:Static system:Environment.NewLine}"/>
+                                    <Span Text="{Binding Name}" FontSize="Title"/>
+                                </FormattedString.Spans>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    
+                    <HorizontalStackLayout HorizontalOptions="End" Spacing="7" Margin="5">
+                        <Button Text="No"
+                                BackgroundColor="CadetBlue" 
+                                TextColor="White"
+                                BorderColor="White"
+                                BorderWidth="1"
+                                WidthRequest="60"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type Pages:MainPage}}, Path=CancelProductDeletion}"/>
+
+                        <Button Text="Yes"
+                                BackgroundColor="CadetBlue" 
+                                TextColor="White"
+                                BorderColor="White"
+                                BorderWidth="1"
+                                WidthRequest="60"
+                                Clicked="OnProductDeletionConfirmed"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentPage>

@@ -1,16 +1,13 @@
-﻿namespace ProjectNutrition
+﻿namespace ProjectNutrition.Models
 {
-    public static partial class MauiProgram
+    public class DailyGoal
     {
-        public class DailyGoal
-        {
-            public int Id { get; set; }
+        public int Id { get; set; }
 
-            public float Calories { get; set; }
-            public float Proteins { get; set; }
-            public float Carbs { get; set; }
-            public float Fats { get; set; }
-            public float Fibers { get; set; }
-        }
+        public float Calories { get; set; }
+        public float Proteins { get; set; }
+        public float Carbs { get; set; }
+        public float Fats { get; set; }
+        public float Fibers { get; set; }
     }
 }

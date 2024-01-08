@@ -1,12 +1,13 @@
 ﻿namespace ProjectNutrition.Models
 {
     /// <summary>
-    /// Junction table for Day and Meal
+    /// Junction table for Meal and Product
     /// </summary>
-    public class EatenMeal
+    public class MealProduct
     {
         public int Id { get; set; }
         public Meal Meal { get; set; } = null!;
-        public Day Day { get; set; } = null!;
+        public Product Product { get; set; } = null!;
+        public float Amount { get; set; }
     }
 }

@@ -1,12 +1,9 @@
-﻿namespace ProjectNutrition
+﻿namespace ProjectNutrition.Models
 {
-    public static partial class MauiProgram
+    public class Meal
     {
-        public class Meal
-        {
-            public int Id { get; set; }
-            public string Name { get; set; } = string.Empty;
-            public IEnumerable<MealIngredient> Ingredients { get; set; } = new List<MealIngredient>();
-        }
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public IEnumerable<MealProduct> Products { get; set; } = new List<MealProduct>();
     }
 }
