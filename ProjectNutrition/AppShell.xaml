@@ -7,9 +7,24 @@
     Shell.FlyoutBehavior="Disabled"
     Title="ProjectNutrition">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <TabBar>
+        <Tab Icon="ingredients.png"
+             Title="Products">
+            
+            <ShellContent ContentTemplate="{DataTemplate local:ProductsPage}"/>
+        </Tab>
+
+        <Tab Icon="meal.png"
+             Title="Meals">
+            
+            <ShellContent ContentTemplate="{DataTemplate local:MealsPage}"/>
+        </Tab>
+
+        <Tab Icon="goal.png"
+             Title="Goal">
+
+            <ShellContent ContentTemplate="{DataTemplate local:DailyGoalPage}"/>
+        </Tab>
+    </TabBar>
 
 </Shell>

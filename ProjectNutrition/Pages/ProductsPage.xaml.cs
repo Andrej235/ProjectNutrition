@@ -1,8 +1,10 @@
 ﻿using ProjectNutrition.Models;
+using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 
 namespace ProjectNutrition.Pages
 {
-    public partial class MainPage : ContentPage
+    public partial class ProductsPage : ContentPage
     {
         private const string NEW_PRODUCT_DEFAULT_NAME = "My Product";
 
@@ -18,7 +20,7 @@ namespace ProjectNutrition.Pages
         }
 
 
-        public MainPage()
+        public ProductsPage()
         {
             InitializeComponent();
 
@@ -55,10 +57,7 @@ namespace ProjectNutrition.Pages
 
         private void OnAddNewProductBtnClicked(object sender, EventArgs e)
         {
-            Products.Add(new()
-            {
-                Name = NEW_PRODUCT_DEFAULT_NAME
-            });
+            Products = [.. Products, new() { Name = NEW_PRODUCT_DEFAULT_NAME }];
 
             addNewProductWrapper.BindingContext = null;
             addNewProductWrapper.BindingContext = Products.Last();
@@ -70,6 +69,7 @@ namespace ProjectNutrition.Pages
             if (addNewProductWrapper.IsVisible)
             {
                 addNewProductWrapper.IsVisible = false;
+
                 var addedProduct = Products.Last();
                 if (addedProduct.Name == NEW_PRODUCT_DEFAULT_NAME)
                     Products.Remove(addedProduct);
