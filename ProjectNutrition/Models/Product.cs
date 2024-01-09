@@ -54,5 +54,18 @@ namespace ProjectNutrition.Models
             set => SetProperty(ref fibers, value);
         }
         private float fibers;
+
+        public Product() { }
+
+        public Product(int id, string name, float calories, float proteins, float carbs, float fats, float fibers)
+        {
+            Id = id;
+            Name = name;
+            Calories = calories;
+            Proteins = proteins;
+            Carbs = carbs;
+            Fats = fats;
+            Fibers = fibers;
+        }
     }
 }
