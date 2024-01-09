@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using CommunityToolkit.Maui.Core;
+using Microsoft.Extensions.Logging;
+using ProjectNutrition.Pages;
+using ProjectNutrition.ViewModels;
 
 namespace ProjectNutrition
 {
@@ -9,11 +13,16 @@ namespace ProjectNutrition
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
+                .UseMauiCommunityToolkitCore()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
+
+            builder.Services.AddSingleton<ProductsPage>();
+            builder.Services.AddSingleton<ProductsViewModel>();
 
 #if DEBUG
             builder.Logging.AddDebug();
