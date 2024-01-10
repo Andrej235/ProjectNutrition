@@ -25,43 +25,6 @@ namespace ProjectNutrition.ViewModels
             Products = [.. this.context.Products];
         }
 
-        #region Delete
-        [ObservableProperty]
-        private bool isDeletingAProduct;
-        private Product? productToDelete;
-
-        [RelayCommand]
-        void OpenDeletionDialog(object productToDelete)
-        {
-            if (productToDelete is not Product product)
-                return;
-
-            this.productToDelete = product;
-            IsDeletingAProduct = true;
-        }
-
-        [RelayCommand]
-        void CancelDeletionDialog()
-        {
-            IsDeletingAProduct = false;
-            productToDelete = null;
-        }
-
-        [RelayCommand]
-        void ConfirmDeleteDialog()
-        {
-            if (productToDelete is null)
-                return;
-
-            Products.Remove(productToDelete);
-            context.Products.Delete(productToDelete);
-            context.Products.SaveChanges();
-
-            IsDeletingAProduct = false;
-            productToDelete = null;
-        }
-        #endregion
-
         #region Create
         [ObservableProperty]
         private Product newProduct;
@@ -103,6 +66,43 @@ namespace ProjectNutrition.ViewModels
 
             isEditingProduct = true;
             IsCreatingAProduct = true;
+        }
+        #endregion
+
+        #region Delete
+        [ObservableProperty]
+        private bool isDeletingAProduct;
+        private Product? productToDelete;
+
+        [RelayCommand]
+        void OpenDeletionDialog(object productToDelete)
+        {
+            if (productToDelete is not Product product)
+                return;
+
+            this.productToDelete = product;
+            IsDeletingAProduct = true;
+        }
+
+        [RelayCommand]
+        void CancelDeletionDialog()
+        {
+            IsDeletingAProduct = false;
+            productToDelete = null;
+        }
+
+        [RelayCommand]
+        void ConfirmDeleteDialog()
+        {
+            if (productToDelete is null)
+                return;
+
+            Products.Remove(productToDelete);
+            context.Products.Delete(productToDelete);
+            context.Products.SaveChanges();
+
+            IsDeletingAProduct = false;
+            productToDelete = null;
         }
         #endregion
 

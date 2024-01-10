@@ -25,8 +25,9 @@
         </Style>
 
         <Style TargetType="Entry" x:Key="nutritionEntry">
-            <Setter Property="WidthRequest" Value="150" />
-            <Setter Property="HorizontalTextAlignment" Value="Center" />
+            <Setter Property="WidthRequest" Value="130" />
+            <Setter Property="HorizontalTextAlignment" Value="Start" />
+            <Setter Property="HorizontalOptions" Value="Start" />
             <Setter Property="Grid.Column" Value="1" />
         </Style>
     </ContentPage.Resources>
@@ -101,8 +102,8 @@
               IsVisible="{Binding IsCreatingAProduct}" 
               ZIndex="100">
 
-            <Border Padding="10" Margin="50" VerticalOptions="Center">
-                <VerticalStackLayout>
+            <Border Padding="5, 15, 5, 15" Margin="50" VerticalOptions="Center">
+                <VerticalStackLayout Spacing="10">
                     <Grid ColumnDefinitions=".5*, .5*" Margin="0, 5, 0, 5">
                         <Label Text="Name: " />
                         <Entry Style="{StaticResource nutritionEntry}" Text="{Binding NewProduct.Name}" />

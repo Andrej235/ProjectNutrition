@@ -27,7 +27,12 @@ namespace ProjectNutrition
             builder.Services.AddSingleton<ModelBuilder>();
 
             builder.Services.AddSingleton<ProductsPage>();
+            builder.Services.AddSingleton<MealsPage>();
+            builder.Services.AddSingleton<DailyGoalPage>();
+
             builder.Services.AddSingleton<ProductsViewModel>();
+            builder.Services.AddSingleton<MealsViewModel>();
+            builder.Services.AddSingleton<DailyGoalViewModel>();
 
 #if DEBUG
             builder.Logging.AddDebug();

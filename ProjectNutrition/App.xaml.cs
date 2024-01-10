@@ -1,6 +1,4 @@
-﻿using ProjectNutrition.Database;
-
-namespace ProjectNutrition
+﻿namespace ProjectNutrition
 {
     public partial class App : Application
     {
