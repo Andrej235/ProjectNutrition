@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using LocalJSONDatabase.Core;
+using ProjectNutrition.Database;
 using ProjectNutrition.Models;
 using System.Collections.ObjectModel;
 
@@ -12,29 +14,11 @@ namespace ProjectNutrition.ViewModels
         [ObservableProperty]
         private ObservableCollection<Product> products;
 
+        private static DBTable<Product> DBProducts => DataContext.Context.Products;
+
         public ProductsViewModel()
         {
-            Products = [
-                new()
-                {
-                    Calories = 150,
-                    Carbs = 10,
-                    Fats = 10,
-                    Fibers = 10,
-                    Proteins = 10,
-                    Id = 1,
-                    Name = "An ingedient"
-                },
-                new()
-                {
-                    Calories = 500,
-                    Carbs = 20,
-                    Fats = 25,
-                    Fibers = 15,
-                    Proteins = 5,
-                    Id = 2,
-                    Name = "A different ingedient"
-                }];
+            Products = [.. DataContext.Context.Products];
 
             IsCreatingAProduct = false;
             NewProduct = new();
@@ -69,6 +53,9 @@ namespace ProjectNutrition.ViewModels
                 return;
 
             Products.Remove(productToDelete);
+            DBProducts.Delete(productToDelete);
+            DBProducts.SaveChanges();
+
             IsDeletingAProduct = false;
             productToDelete = null;
         }
@@ -91,6 +78,9 @@ namespace ProjectNutrition.ViewModels
 
             NewProduct.Id = (Products.MaxBy(x => x.Id)?.Id ?? 0) + 1;
             Products.Add(NewProduct);
+            DBProducts.Add(NewProduct);
+            DBProducts.SaveChanges();
+
             IsCreatingAProduct = false;
         }
 
@@ -126,6 +116,7 @@ namespace ProjectNutrition.ViewModels
                 {
                     IsCreatingAProduct = false;
                     isEditingProduct = false;
+                    DBProducts.SaveChanges();
                 }
             }
             else if (IsDeletingAProduct)

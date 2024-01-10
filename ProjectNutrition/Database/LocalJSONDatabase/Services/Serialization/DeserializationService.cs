@@ -5,6 +5,7 @@ using LocalJSONDatabase.Services.Utility;
 using System.Dynamic;
 using System.Reflection;
 using System.Text.Json;
+using System.Collections;
 
 namespace LocalJSONDatabase.Services.Serialization
 {
@@ -31,7 +32,7 @@ namespace LocalJSONDatabase.Services.Serialization
                 var json = getJSONMethod?.Invoke(table, null) ?? throw new NullReferenceException();
 
                 if (Convert.ToString(json) == "")
-                    return;
+                    continue;
 
                 jsonBackupKeyValuePairs.Add(modelNameToTableName(tableProp.PropertyType.GetGenericArguments()[0].Name), JsonSerializer.Deserialize<object>(Convert.ToString(json) ?? "") ?? throw new NullReferenceException());
             }
@@ -68,6 +69,10 @@ namespace LocalJSONDatabase.Services.Serialization
 
                     tableBuffer.Add(tableProperty);
                 }
+                catch(Exception ex)
+                {
+                    LogDebugger.LogError(ex);
+                }
             }
             if (tableBuffer.Count != 0)
                 await LoadTablesFromProperties(context, tableBuffer, jsonDataToLoad, modelNameToTableName, currentAttempt + 1);
@@ -92,7 +97,7 @@ namespace LocalJSONDatabase.Services.Serialization
                     var modelReferenceAttribute = Attribute.GetCustomAttribute(entityPropertyInfo, typeof(ForeignKeyAttribute));
                     if (modelReferenceAttribute != null)
                     {
-                        if (entityPropertyInfo.PropertyType.IsGenericType)
+                        if (entityPropertyInfo.PropertyType.GetInterface(nameof(IEnumerable)) != null)
                             continue; //Many to one relationship --- handled from the other side (one to many)
 
                         if (context.Table(entityPropertyInfo.PropertyType) is not IEnumerable<object> referencedTable)

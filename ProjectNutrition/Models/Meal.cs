@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using LocalJSONDatabase.Attributes;
 
 namespace ProjectNutrition.Models
 {
     public class Meal : ObservableObject
     {
+        [PrimaryKey]
         public int Id { get; set; }
 
         public string Name
@@ -13,6 +15,7 @@ namespace ProjectNutrition.Models
         }
         private string name = null!;
 
+        [ForeignKey]
         public IEnumerable<MealProduct> Products
         {
             get => products;

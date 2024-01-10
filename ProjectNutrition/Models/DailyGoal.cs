@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using LocalJSONDatabase.Attributes;
 
 namespace ProjectNutrition.Models
 {
     public class DailyGoal : ObservableObject
     {
+        [PrimaryKey]
         public int Id { get; set; }
 
         public float Calories

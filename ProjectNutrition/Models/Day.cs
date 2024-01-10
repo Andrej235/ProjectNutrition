@@ -1,17 +1,21 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using LocalJSONDatabase.Attributes;
 
 namespace ProjectNutrition.Models
 {
     public class Day : ObservableObject
     {
+        [PrimaryKey]
         public int Id { get; set; }
 
         public DateOnly Date
         {
             get => date;
-            set => SetProperty(ref date, value) }
+            set => SetProperty(ref date, value);
+        }
         private DateOnly date;
 
+        [ForeignKey]
         public DailyGoal Goal
         {
             get => goal;
@@ -19,6 +23,7 @@ namespace ProjectNutrition.Models
         }
         private DailyGoal goal = null!;
 
+        [ForeignKey]
         public IEnumerable<EatenMeal> EatenMeals
         {
             get => eatenMeals;
@@ -26,12 +31,15 @@ namespace ProjectNutrition.Models
         }
         private IEnumerable<EatenMeal> eatenMeals = null!;
 
+        [ForeignKey]
         public IEnumerable<EatenProducts> EatenProducts
         {
             get => eatenProducts;
             set => SetProperty(ref eatenProducts, value);
         }
         private IEnumerable<EatenProducts> eatenProducts = null!;
+
+        public Day() { }
 
         public Day(DateOnly date, DailyGoal goal)
         {

@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using LocalJSONDatabase.Attributes;
 
 namespace ProjectNutrition.Models
 {
@@ -7,8 +8,10 @@ namespace ProjectNutrition.Models
     /// </summary>
     public class MealProduct : ObservableObject
     {
+        [PrimaryKey]
         public int Id { get; set; }
 
+        [ForeignKey]
         public Meal Meal
         {
             get => meal;
@@ -16,6 +19,7 @@ namespace ProjectNutrition.Models
         }
         private Meal meal = null!;
 
+        [ForeignKey]
         public Product Product
         {
             get => product;
@@ -29,6 +33,8 @@ namespace ProjectNutrition.Models
             set => SetProperty(ref amount, value);
         }
         private float amount;
+
+        public MealProduct() { }
 
         public MealProduct(Meal meal, Product product, float amount)
         {
