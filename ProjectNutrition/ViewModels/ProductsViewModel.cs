@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using LocalJSONDatabase.Core;
 using ProjectNutrition.Database;
 using ProjectNutrition.Models;
 using System.Collections.ObjectModel;
@@ -10,18 +9,20 @@ namespace ProjectNutrition.ViewModels
     public partial class ProductsViewModel : ObservableObject
     {
         private const string NEW_PRODUCT_DEFAULT_NAME = "My Product";
+        private readonly DataContext context;
 
         [ObservableProperty]
         private ObservableCollection<Product> products;
 
-        private static DBTable<Product> DBProducts => DataContext.Context.Products;
 
-        public ProductsViewModel()
+        public ProductsViewModel(DataContext context)
         {
-            Products = [.. DataContext.Context.Products];
-
             IsCreatingAProduct = false;
             NewProduct = new();
+
+            this.context = context;
+
+            Products = [.. this.context.Products];
         }
 
         #region Delete
@@ -53,8 +54,8 @@ namespace ProjectNutrition.ViewModels
                 return;
 
             Products.Remove(productToDelete);
-            DBProducts.Delete(productToDelete);
-            DBProducts.SaveChanges();
+            context.Products.Delete(productToDelete);
+            context.Products.SaveChanges();
 
             IsDeletingAProduct = false;
             productToDelete = null;
@@ -78,8 +79,8 @@ namespace ProjectNutrition.ViewModels
 
             NewProduct.Id = (Products.MaxBy(x => x.Id)?.Id ?? 0) + 1;
             Products.Add(NewProduct);
-            DBProducts.Add(NewProduct);
-            DBProducts.SaveChanges();
+            context.Products.Add(NewProduct);
+            context.Products.SaveChanges();
 
             IsCreatingAProduct = false;
         }
@@ -116,7 +117,7 @@ namespace ProjectNutrition.ViewModels
                 {
                     IsCreatingAProduct = false;
                     isEditingProduct = false;
-                    DBProducts.SaveChanges();
+                    context.Products.SaveChanges();
                 }
             }
             else if (IsDeletingAProduct)

@@ -19,7 +19,7 @@ namespace LocalJSONDatabase.Core
 
         protected DBContext(ModelBuilder modelBuilder) => this.modelBuilder = modelBuilder;
 
-        public virtual async Task Initialize()
+        protected virtual async Task Initialize()
         {
             FileStream logFile = new($"{DBDirectoryPath}/.log", FileMode.OpenOrCreate, FileAccess.Write, FileShare.ReadWrite);
             LogDebugger.InitializeWriter(new StreamWriter(logFile));

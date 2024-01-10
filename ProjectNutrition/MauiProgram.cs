@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Core;
+using LocalJSONDatabase.Services.ModelBuilder;
 using Microsoft.Extensions.Logging;
+using ProjectNutrition.Database;
 using ProjectNutrition.Pages;
 using ProjectNutrition.ViewModels;
 
@@ -20,6 +22,9 @@ namespace ProjectNutrition
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
+
+            builder.Services.AddSingleton<DataContext>();
+            builder.Services.AddSingleton<ModelBuilder>();
 
             builder.Services.AddSingleton<ProductsPage>();
             builder.Services.AddSingleton<ProductsViewModel>();

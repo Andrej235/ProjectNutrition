@@ -1,22 +1,17 @@
 ﻿using LocalJSONDatabase.Core;
 using LocalJSONDatabase.Services.ModelBuilder;
 using ProjectNutrition.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectNutrition.Database
 {
-    public class DataContext(ModelBuilder modelBuilder) : DBContext(modelBuilder)
+    public class DataContext: DBContext
     {
-        public static DataContext Context { get; private set; } = null!;
         private string dbDirPath = "";
 
-        public override Task Initialize()
+        public DataContext(ModelBuilder modelBuilder) : base(modelBuilder) => Initialize();
+
+        protected override Task Initialize()
         {
-            Context = this;
             dbDirPath = FileSystem.AppDataDirectory;
             return base.Initialize();
         }
