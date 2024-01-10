@@ -10,6 +10,10 @@ namespace ProjectNutrition
 {
     public static partial class MauiProgram
     {
+        private static IServiceProvider serviceProvider = null!;
+        public static TService? GetService<TService>() => serviceProvider.GetService<TService>();
+
+
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
@@ -34,11 +38,16 @@ namespace ProjectNutrition
             builder.Services.AddSingleton<MealsViewModel>();
             builder.Services.AddSingleton<DailyGoalViewModel>();
 
+            builder.Services.AddTransient<ProductSearchViewModel>();
+
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
 
-            return builder.Build();
+            var app = builder.Build();
+            serviceProvider = app.Services;
+
+            return app;
         }
     }
 }

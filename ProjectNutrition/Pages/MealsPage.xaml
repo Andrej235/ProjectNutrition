@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ViewModels="clr-namespace:ProjectNutrition.ViewModels"
+             xmlns:Views="clr-namespace:ProjectNutrition.Views"
              xmlns:Models="clr-namespace:ProjectNutrition.Models"
              x:DataType="ViewModels:MealsViewModel"
              x:Class="ProjectNutrition.Pages.MealsPage">
@@ -104,6 +105,10 @@
                     </VerticalStackLayout>
                 </VerticalStackLayout>
             </Border>
+        </Grid>
+
+        <Grid>
+            <Views:ProductSearchView x:Name="productSearchView" />
         </Grid>
     </Grid>
 </ContentPage>

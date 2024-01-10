@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ViewModels="clr-namespace:ProjectNutrition.ViewModels"
+             xmlns:Models="clr-namespace:ProjectNutrition.Models"
+             x:DataType="ViewModels:ProductSearchViewModel"
+             x:Class="ProjectNutrition.Views.ProductSearchView">
+
+    <VerticalStackLayout BackgroundColor="Black" Spacing="10">
+        <SearchBar Margin="10" Text="{Binding SearchTerm}" />
+
+        <CollectionView x:Name="ProductCollection" ItemsSource="{Binding Products}">
+            <CollectionView.Header>
+                <Grid ColumnDefinitions=".57*, .22*, .21*">
+                    <Border Grid.Column="0">
+                        <Grid>
+                            <Label Text="Name" TextColor="LightBlue" />
+                            <Button Command="{Binding SortByNameCommand}" Background="Transparent" HeightRequest="30" />
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Column="1">
+                        <Grid>
+                            <Label Text="Calories" TextColor="LightBlue" />
+                            <Button Command="{Binding SortByCaloriesCommand}" Background="Transparent"  HeightRequest="30" />
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Column="2">
+                        <Grid>
+                            <Label Text="Protein" TextColor="LightBlue" />
+                            <Button Command="{Binding SortByProteinCommand}" Background="Transparent"  HeightRequest="30" />
+                        </Grid>
+                    </Border>
+                </Grid>
+            </CollectionView.Header>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="Models:Product">
+                    <Grid ColumnDefinitions=".57*, .22*, .21*">
+                        <Border Grid.Column="0">
+                            <Grid>
+                                <Label Text="{Binding Name}" />
+                                <Button Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=SelectProductCommand}" 
+                                        CommandParameter="{Binding .}"
+                                        Background="Transparent" />
+                            </Grid>
+                        </Border>
+
+                        <Border Grid.Column="1">
+                            <Label Text="{Binding Calories}" />
+                        </Border>
+
+                        <Border Grid.Column="2">
+                            <Label Text="{Binding Proteins}" />
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentView>

@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using ProjectNutrition.Database;
 using ProjectNutrition.Models;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace ProjectNutrition.ViewModels
 {
@@ -25,10 +26,15 @@ namespace ProjectNutrition.ViewModels
         [RelayCommand]
         private void Back()
         {
-            if(IsCreatingAMeal)
+            if (IsCreatingAMeal)
             {
                 IsCreatingAMeal = false;
             }
+        }
+
+        public void OnProductSelected(object? sender, ProductSearchViewModel.ProductSelectedEventArgs e)
+        {
+            Debug.WriteLine($"---> It works! {e.Product.Name}");
         }
 
         #region Create
