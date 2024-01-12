@@ -33,7 +33,20 @@ namespace ProjectNutrition.ViewModels
             else if (IsCreatingAMeal)
             {
                 IsCreatingAMeal = false;
-                NewMeal.Products = NewMealProducts;
+                if (NewMeal.Name == NEW_MEAL_DEFAULT_NAME)
+                    return;
+
+                NewMeal.Products = NewMealProducts.Where(x => x.Amount > 0);
+
+                if (!NewMeal.Products.Any())
+                    return;
+
+                context.Meals.Add(NewMeal);
+                foreach (var x in NewMealProducts)
+                    context.MealProducts.Add(x);
+
+                context.SaveChanges();
+
                 Meals.Add(NewMeal);
             }
         }

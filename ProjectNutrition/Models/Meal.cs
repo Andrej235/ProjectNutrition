@@ -35,5 +35,11 @@ namespace ProjectNutrition.Models
             Name = name;
             Products = products;
         }
+
+        public float GetCalories() => Products.Sum(x => x.Product.Calories * (x.Amount / 100));
+        public float GetProtein() => Products.Sum(x => x.Product.Proteins * (x.Amount / 100));
+        public float GetCarbs() => Products.Sum(x => x.Product.Carbs * (x.Amount / 100));
+        public float GetFats() => Products.Sum(x => x.Product.Fats * (x.Amount / 100));
+        public float GetFibers() => Products.Sum(x => x.Product.Fibers * (x.Amount / 100));
     }
 }
