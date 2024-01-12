@@ -36,12 +36,9 @@ namespace ProjectNutrition.Models
 
         public MealProduct() { }
 
-        public MealProduct(Meal meal, Product product, float amount)
-        {
-            Meal = meal;
-            Product = product;
-            Amount = amount;
-        }
+        public MealProduct(Meal meal, Product product) : this(0, meal, product, 0) { }
+
+        public MealProduct(Meal meal, Product product, float amount) : this(0, meal, product, amount) { }
 
         public MealProduct(int id, Meal meal, Product product, float amount)
         {
