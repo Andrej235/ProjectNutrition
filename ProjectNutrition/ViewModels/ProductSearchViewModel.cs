@@ -190,5 +190,17 @@ namespace ProjectNutrition.ViewModels
             }
         }
         #endregion
+
+        [RelayCommand]
+        private void OnDeleteProductClicked()
+        {
+
+        }
+
+        [RelayCommand]
+        private void OnEditProductClicked()
+        {
+
+        }
     }
 }

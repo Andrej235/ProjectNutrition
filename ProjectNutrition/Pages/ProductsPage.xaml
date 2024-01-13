@@ -4,8 +4,9 @@
              xmlns:system="clr-namespace:System;assembly=netstandard"
              xmlns:Pages="clr-namespace:ProjectNutrition.Pages"
              xmlns:Models="clr-namespace:ProjectNutrition.Models"
-             x:Class="ProjectNutrition.Pages.ProductsPage"
+             xmlns:Views="clr-namespace:ProjectNutrition.Views"
              xmlns:ViewModels="clr-namespace:ProjectNutrition.ViewModels"
+             x:Class="ProjectNutrition.Pages.ProductsPage"
              x:DataType="ViewModels:ProductsViewModel">
 
     <Shell.BackButtonBehavior>
@@ -35,68 +36,13 @@
     <Grid Margin="0, 10, 0, 0">
         <ScrollView>
             <VerticalStackLayout>
-                <CollectionView x:Name="ProductCollection" ItemsSource="{Binding Products}">
-                    <CollectionView.Header>
-                        <Grid ColumnDefinitions=".57*, .22*, .21*">
-                            <Border Grid.Column="0">
-                                <Label Text="Name" />
-                            </Border>
-
-                            <Border Grid.Column="1">
-                                <Label Text="Calories" />
-                            </Border>
-
-                            <Border Grid.Column="2">
-                                <Label Text="Protein" />
-                            </Border>
-                        </Grid>
-                    </CollectionView.Header>
-
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="Models:Product">
-                            <SwipeView>
-                                <SwipeView.RightItems>
-                                    <SwipeItemView>
-                                        <Grid WidthRequest="60" Padding="10">
-                                            <ImageButton Source="trashcan.png"
-                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductsViewModel}}, Path=OpenDeletionDialogCommand }" 
-                                                         CommandParameter="{Binding .}" />
-                                        </Grid>
-                                    </SwipeItemView>
-                                </SwipeView.RightItems>
-
-                                <SwipeView.LeftItems>
-                                    <SwipeItemView>
-                                        <Grid WidthRequest="60" Padding="10">
-                                            <ImageButton Source="pen.png" 
-                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductsViewModel}}, Path=StartEditingProductCommand}" 
-                                                         CommandParameter="{Binding .}" />                        
-                                        </Grid>
-                                    </SwipeItemView>
-                                </SwipeView.LeftItems>
-
-                                <Grid ColumnDefinitions=".57*, .22*, .21*">
-                                    <Border Grid.Column="0">
-                                        <Label Text="{Binding Name}" />
-                                    </Border>
-
-                                    <Border Grid.Column="1">
-                                        <Label Text="{Binding Calories}" />
-                                    </Border>
-
-                                    <Border Grid.Column="2">
-                                        <Label Text="{Binding Proteins}" />
-                                    </Border>
-                                </Grid>
-                            </SwipeView>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-
+                <Views:ProductSearchView x:Name="productsDisplay" />
+                
                 <Button Text="+" Margin="0, 5, 0, 10" Background="White" Command="{Binding StartCreatingProductCommand}"/>
             </VerticalStackLayout>
         </ScrollView>
 
+        <!--
         <Grid x:Name="addNewProductWrapper"
               BackgroundColor="Black" 
               IsVisible="{Binding IsCreatingAProduct}" 
@@ -137,7 +83,15 @@
                 </VerticalStackLayout>
             </Border>
         </Grid>
+        -->
 
+        <Views:NewProductCreationDialogView x:Name="createProductDialog"
+                                            BackgroundColor="Black" 
+                                            IsVisible="{Binding IsCreatingAProduct}" 
+                                            SaveCommand="{Binding SaveNewProductCommand}"
+                                            DefaultProductName="{Binding DefaultProductName}"
+                                            ZIndex="100"/>
+        
         <Grid x:Name="productDeletionConfirmDialogWrapper" IsVisible="{Binding IsDeletingAProduct}">
             <Button BackgroundColor="White"
                     Opacity=".5"

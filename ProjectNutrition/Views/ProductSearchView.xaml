@@ -37,24 +37,46 @@
 
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="Models:Product">
-                    <Grid ColumnDefinitions=".57*, .22*, .21*">
-                        <Border Grid.Column="0">
-                            <Grid>
-                                <Label Text="{Binding Name}" />
-                                <Button Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=SelectProductCommand}" 
+                    <SwipeView>
+                        <SwipeView.LeftItems>
+                            <SwipeItemView>
+                                <Grid WidthRequest="60" Padding="15">
+                                    <ImageButton Source="pen.png" 
+                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=OnEditProductClicked}" 
+                                                 CommandParameter="{Binding .}" />
+                                </Grid>
+                            </SwipeItemView>
+                        </SwipeView.LeftItems>
+
+                        <SwipeView.RightItems>
+                            <SwipeItemView>
+                                <Grid WidthRequest="60" Padding="10">
+                                    <ImageButton Source="trashcan.png"
+                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=OnDeleteProductClicked }" 
+                                                 CommandParameter="{Binding .}" />
+                                </Grid>
+                            </SwipeItemView>
+                        </SwipeView.RightItems>
+
+                        <Grid ColumnDefinitions=".57*, .22*, .21*">
+                            <Border Grid.Column="0">
+                                <Grid>
+                                    <Label Text="{Binding Name}" />
+                                    <Button Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=SelectProductCommand}" 
                                         CommandParameter="{Binding .}"
                                         Background="Transparent" />
-                            </Grid>
-                        </Border>
+                                </Grid>
+                            </Border>
 
-                        <Border Grid.Column="1">
-                            <Label Text="{Binding Calories}" />
-                        </Border>
+                            <Border Grid.Column="1">
+                                <Label Text="{Binding Calories}" />
+                            </Border>
 
-                        <Border Grid.Column="2">
-                            <Label Text="{Binding Proteins}" />
-                        </Border>
-                    </Grid>
+                            <Border Grid.Column="2">
+                                <Label Text="{Binding Proteins}" />
+                            </Border>
+                        </Grid>
+                    </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

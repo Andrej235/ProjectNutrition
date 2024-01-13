@@ -1,4 +1,5 @@
 ﻿using ProjectNutrition.ViewModels;
+using static ProjectNutrition.ViewModels.ProductsViewModel;
 
 namespace ProjectNutrition.Pages
 {
@@ -8,12 +9,18 @@ namespace ProjectNutrition.Pages
         {
             InitializeComponent();
             BindingContext = vm;
+
+            vm.OnCreateNewProduct += OnCreateNewProduct;
         }
+
+        private void OnCreateNewProduct(object? sender, ChangedProductEventArgs e) => productsDisplay.AddNewProduct(e.Product);
 
         protected override bool OnBackButtonPressed()
         {
             if (BindingContext is not ProductsViewModel vm)
                 return false;
+
+            createProductDialog.Save();
 
             vm.BackCommand.Execute(null);
             return true;

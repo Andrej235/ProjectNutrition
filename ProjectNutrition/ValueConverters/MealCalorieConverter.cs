@@ -10,7 +10,7 @@ namespace ProjectNutrition.ValueConverters
             if (value is not Meal meal)
                 return null;
 
-            return $"{meal.GetProtein():f0}";
+            return $"{meal.GetCalories():f0}";
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => null;

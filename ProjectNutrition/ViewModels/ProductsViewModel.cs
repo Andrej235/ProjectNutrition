@@ -8,7 +8,21 @@ namespace ProjectNutrition.ViewModels
 {
     public partial class ProductsViewModel : ObservableObject
     {
-        private const string NEW_PRODUCT_DEFAULT_NAME = "My Product";
+        //Reimplement editing / deleting --- I deleted this when I implemented the productsearchview, maybe implement it in productsearchview but with a property to enable / disable it???
+
+        public class ChangedProductEventArgs(Product createdProduct) : EventArgs
+        {
+            public Product Product { get; set; } = createdProduct;
+
+            public static implicit operator ChangedProductEventArgs(Product product) => new(product);
+        }
+        public event EventHandler<ChangedProductEventArgs>? OnCreateNewProduct;
+        public event EventHandler<ChangedProductEventArgs>? OnDeleteProduct;
+        public event EventHandler<ChangedProductEventArgs>? OnEditProduct;
+
+
+        public string DefaultProductName => DEFAULT_PRODUCT_NAME;
+        private const string DEFAULT_PRODUCT_NAME = "My Product";
         private readonly DataContext context;
 
         [ObservableProperty]
@@ -17,56 +31,37 @@ namespace ProjectNutrition.ViewModels
 
         public ProductsViewModel(DataContext context)
         {
-            IsCreatingAProduct = false;
-            NewProduct = new();
+            SaveNewProductCommand = new(newProductObj =>
+            {
+                if (newProductObj is not Product newProduct)
+                    return;
+
+                if (newProduct.Name == DEFAULT_PRODUCT_NAME)
+                {
+                    IsCreatingAProduct = false;
+                    return;
+                }
+
+                context.Products.Add(newProduct);
+                context.Products.SaveChanges();
+
+                Products.Add(newProduct);
+                OnCreateNewProduct?.Invoke(this, newProduct);
+
+                IsCreatingAProduct = false;
+            });
 
             this.context = context;
-
+            IsCreatingAProduct = false;
             Products = [.. this.context.Products];
         }
 
         #region Create
         [ObservableProperty]
-        private Product newProduct;
-
-        [ObservableProperty]
         private bool isCreatingAProduct;
 
-        private void Add()
-        {
-            if (NewProduct.Name == NEW_PRODUCT_DEFAULT_NAME)
-            {
-                IsCreatingAProduct = false;
-                return;
-            }
-
-            NewProduct.Id = (Products.MaxBy(x => x.Id)?.Id ?? 0) + 1;
-            Products.Add(NewProduct);
-            context.Products.Add(NewProduct);
-            context.Products.SaveChanges();
-
-            IsCreatingAProduct = false;
-        }
-
         [RelayCommand]
-        private void StartCreatingProduct()
-        {
-            NewProduct = new() { Name = NEW_PRODUCT_DEFAULT_NAME };
-            IsCreatingAProduct = true;
-        }
-        #endregion
-
-        #region Edit
-        private bool isEditingProduct;
-
-        [RelayCommand]
-        void StartEditingProduct(Product productToEdit)
-        {
-            NewProduct = productToEdit;
-
-            isEditingProduct = true;
-            IsCreatingAProduct = true;
-        }
+        private void StartCreatingProduct() => IsCreatingAProduct = true;
         #endregion
 
         #region Delete
@@ -97,7 +92,9 @@ namespace ProjectNutrition.ViewModels
             if (productToDelete is null)
                 return;
 
+            OnDeleteProduct?.Invoke(this, productToDelete);
             Products.Remove(productToDelete);
+
             context.Products.Delete(productToDelete);
             context.Products.SaveChanges();
 
@@ -107,24 +104,20 @@ namespace ProjectNutrition.ViewModels
         #endregion
 
         [RelayCommand]
-        void Back()
+        private void Back()
         {
-            if (IsCreatingAProduct)
-            {
-                if (!isEditingProduct)
-                    Add();
-                else
-                {
-                    IsCreatingAProduct = false;
-                    isEditingProduct = false;
-                    context.Products.SaveChanges();
-                }
-            }
-            else if (IsDeletingAProduct)
+            if (IsDeletingAProduct)
             {
                 CancelDeletionDialog();
                 productToDelete = null;
             }
+        }
+
+        private Command saveNewProductCommand = null!;
+        public Command SaveNewProductCommand
+        {
+            get => saveNewProductCommand;
+            set => SetProperty(ref saveNewProductCommand, value);
         }
     }
 }
