@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Views="clr-namespace:ProjectNutrition.Views"
+             xmlns:Moles="clr-namespace:ProjectNutrition.Models"
+             x:DataType="Views:ConfirmDialogView"
+             x:Class="ProjectNutrition.Views.ConfirmDialogView">
+
+    <Grid x:Name="productDeletionConfirmDialogWrapper">
+        <Button BackgroundColor="White"
+                    Opacity=".5"
+                    Clicked="OnCancel" />
+
+        <Border StrokeShape="RoundRectangle 25"
+                    StrokeThickness="3"
+                    Stroke="White"
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Center"
+                    Padding="25"
+                    Background="Black">
+
+            <VerticalStackLayout Spacing="15">
+                <Label x:Name="confirmTextLabel" />
+
+                <HorizontalStackLayout HorizontalOptions="End" Spacing="7" Margin="5">
+                    <Button Text="No"
+                                BackgroundColor="CadetBlue" 
+                                TextColor="White"
+                                BorderColor="White"
+                                BorderWidth="1"
+                                WidthRequest="60"
+                                Clicked="OnCancel" />
+
+                    <Button Text="Yes"
+                                BackgroundColor="CadetBlue" 
+                                TextColor="White"
+                                BorderColor="White"
+                                BorderWidth="1"
+                                WidthRequest="60"
+                                Clicked="OnConfirm" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentView>

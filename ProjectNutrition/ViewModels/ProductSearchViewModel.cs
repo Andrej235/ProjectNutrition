@@ -28,8 +28,27 @@ namespace ProjectNutrition.ViewModels
             Products = [.. context.Products];
 
             SortByName();
-        }
 
+            CancelProductDeletionCommand = new(() =>
+            {
+                IsDeletingAProduct = false;
+                productToDelete = null;
+            });
+
+            ConfirmProductDeletionCommand = new(() =>
+            {
+                if (productToDelete is null)
+                    return;
+
+                Products.Remove(productToDelete);
+
+                context.Products.Delete(productToDelete);
+                context.Products.SaveChanges();
+
+                IsDeletingAProduct = false;
+                productToDelete = null;
+            });
+        }
 
 
         [RelayCommand]
@@ -191,16 +210,39 @@ namespace ProjectNutrition.ViewModels
         }
         #endregion
 
+        #region Editing
+        [ObservableProperty]
+        private bool isEditingAProduct;
+        private Product? productToEdit;
+
         [RelayCommand]
-        private void OnDeleteProductClicked()
+        private void EditProduct(Product product)
         {
-
+            IsEditingAProduct = true;
+            productToEdit = product;
         }
+        #endregion
+
+        #region Deletion
+        [ObservableProperty]
+        private bool isDeletingAProduct;
+        private Product? productToDelete;
+
+        [ObservableProperty]
+        private Command cancelProductDeletionCommand = null!;
+
+        [ObservableProperty]
+        private Command confirmProductDeletionCommand = null!;
 
         [RelayCommand]
-        private void OnEditProductClicked()
+        private void DeleteProduct(object productToDelete)
         {
+            if (productToDelete is not Product product)
+                return;
 
+            this.productToDelete = product;
+            IsDeletingAProduct = true;
         }
+        #endregion
     }
 }

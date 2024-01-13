@@ -1,84 +1,89 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Views="clr-namespace:ProjectNutrition.Views"
              xmlns:ViewModels="clr-namespace:ProjectNutrition.ViewModels"
              xmlns:Models="clr-namespace:ProjectNutrition.Models"
              x:DataType="ViewModels:ProductSearchViewModel"
              x:Class="ProjectNutrition.Views.ProductSearchView">
 
-    <VerticalStackLayout BackgroundColor="Black" Spacing="10">
-        <SearchBar Margin="10" Text="{Binding SearchTerm}" />
+    <Grid>
+        <VerticalStackLayout BackgroundColor="Black" Spacing="10">
+            <SearchBar Margin="10" Text="{Binding SearchTerm}" />
 
-        <CollectionView x:Name="ProductCollection" ItemsSource="{Binding Products}">
-            <CollectionView.Header>
-                <Grid ColumnDefinitions=".57*, .22*, .21*">
-                    <Border Grid.Column="0">
-                        <Grid>
-                            <Label Text="Name" TextColor="LightBlue" />
-                            <Button Command="{Binding SortByNameCommand}" Background="Transparent" HeightRequest="30" />
-                        </Grid>
-                    </Border>
+            <CollectionView x:Name="ProductCollection" ItemsSource="{Binding Products}">
+                <CollectionView.Header>
+                    <Grid ColumnDefinitions=".57*, .22*, .21*">
+                        <Border Grid.Column="0">
+                            <Grid>
+                                <Label Text="Name" TextColor="LightBlue" />
+                                <Button Command="{Binding SortByNameCommand}" Background="Transparent" HeightRequest="30" />
+                            </Grid>
+                        </Border>
 
-                    <Border Grid.Column="1">
-                        <Grid>
-                            <Label Text="Calories" TextColor="LightBlue" />
-                            <Button Command="{Binding SortByCaloriesCommand}" Background="Transparent"  HeightRequest="30" />
-                        </Grid>
-                    </Border>
+                        <Border Grid.Column="1">
+                            <Grid>
+                                <Label Text="Calories" TextColor="LightBlue" />
+                                <Button Command="{Binding SortByCaloriesCommand}" Background="Transparent"  HeightRequest="30" />
+                            </Grid>
+                        </Border>
 
-                    <Border Grid.Column="2">
-                        <Grid>
-                            <Label Text="Protein" TextColor="LightBlue" />
-                            <Button Command="{Binding SortByProteinCommand}" Background="Transparent"  HeightRequest="30" />
-                        </Grid>
-                    </Border>
-                </Grid>
-            </CollectionView.Header>
+                        <Border Grid.Column="2">
+                            <Grid>
+                                <Label Text="Protein" TextColor="LightBlue" />
+                                <Button Command="{Binding SortByProteinCommand}" Background="Transparent"  HeightRequest="30" />
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </CollectionView.Header>
 
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="Models:Product">
-                    <SwipeView>
-                        <SwipeView.LeftItems>
-                            <SwipeItemView>
-                                <Grid WidthRequest="60" Padding="15">
-                                    <ImageButton Source="pen.png" 
-                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=OnEditProductClicked}" 
-                                                 CommandParameter="{Binding .}" />
-                                </Grid>
-                            </SwipeItemView>
-                        </SwipeView.LeftItems>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="Models:Product">
+                        <SwipeView>
+                            <SwipeView.LeftItems>
+                                <SwipeItemView>
+                                    <Grid WidthRequest="60" Padding="15">
+                                        <ImageButton Source="pen.png" 
+                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=EditProductCommand}" 
+                                                     CommandParameter="{Binding .}" />
+                                    </Grid>
+                                </SwipeItemView>
+                            </SwipeView.LeftItems>
 
-                        <SwipeView.RightItems>
-                            <SwipeItemView>
-                                <Grid WidthRequest="60" Padding="10">
-                                    <ImageButton Source="trashcan.png"
-                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=OnDeleteProductClicked }" 
-                                                 CommandParameter="{Binding .}" />
-                                </Grid>
-                            </SwipeItemView>
-                        </SwipeView.RightItems>
+                            <SwipeView.RightItems>
+                                <SwipeItemView>
+                                    <Grid WidthRequest="60" Padding="10">
+                                        <ImageButton Source="trashcan.png"
+                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=DeleteProductCommand}" 
+                                                     CommandParameter="{Binding .}" />
+                                    </Grid>
+                                </SwipeItemView>
+                            </SwipeView.RightItems>
 
-                        <Grid ColumnDefinitions=".57*, .22*, .21*">
-                            <Border Grid.Column="0">
-                                <Grid>
-                                    <Label Text="{Binding Name}" />
-                                    <Button Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=SelectProductCommand}" 
+                            <Grid ColumnDefinitions=".57*, .22*, .21*">
+                                <Border Grid.Column="0">
+                                    <Grid>
+                                        <Label Text="{Binding Name}" />
+                                        <Button Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=SelectProductCommand}" 
                                         CommandParameter="{Binding .}"
                                         Background="Transparent" />
-                                </Grid>
-                            </Border>
+                                    </Grid>
+                                </Border>
 
-                            <Border Grid.Column="1">
-                                <Label Text="{Binding Calories}" />
-                            </Border>
+                                <Border Grid.Column="1">
+                                    <Label Text="{Binding Calories}" />
+                                </Border>
 
-                            <Border Grid.Column="2">
-                                <Label Text="{Binding Proteins}" />
-                            </Border>
-                        </Grid>
-                    </SwipeView>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </VerticalStackLayout>
+                                <Border Grid.Column="2">
+                                    <Label Text="{Binding Proteins}" />
+                                </Border>
+                            </Grid>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+
+        <Views:ConfirmDialogView IsVisible="{Binding IsDeletingAProduct}" CancelCommand="{Binding CancelProductDeletionCommand}" ConfirmCommand="{Binding ConfirmProductDeletionCommand}"/>
+    </Grid>
 </ContentView>

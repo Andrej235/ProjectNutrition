@@ -17,16 +17,15 @@ namespace ProjectNutrition.ViewModels
             public static implicit operator ChangedProductEventArgs(Product product) => new(product);
         }
         public event EventHandler<ChangedProductEventArgs>? OnCreateNewProduct;
-        public event EventHandler<ChangedProductEventArgs>? OnDeleteProduct;
-        public event EventHandler<ChangedProductEventArgs>? OnEditProduct;
 
 
-        public string DefaultProductName => DEFAULT_PRODUCT_NAME;
+        public static string DefaultProductName => DEFAULT_PRODUCT_NAME;
         private const string DEFAULT_PRODUCT_NAME = "My Product";
         private readonly DataContext context;
 
         [ObservableProperty]
         private ObservableCollection<Product> products;
+
 
 
         public ProductsViewModel(DataContext context)
@@ -64,60 +63,7 @@ namespace ProjectNutrition.ViewModels
         private void StartCreatingProduct() => IsCreatingAProduct = true;
         #endregion
 
-        #region Delete
         [ObservableProperty]
-        private bool isDeletingAProduct;
-        private Product? productToDelete;
-
-        [RelayCommand]
-        void OpenDeletionDialog(object productToDelete)
-        {
-            if (productToDelete is not Product product)
-                return;
-
-            this.productToDelete = product;
-            IsDeletingAProduct = true;
-        }
-
-        [RelayCommand]
-        void CancelDeletionDialog()
-        {
-            IsDeletingAProduct = false;
-            productToDelete = null;
-        }
-
-        [RelayCommand]
-        void ConfirmDeleteDialog()
-        {
-            if (productToDelete is null)
-                return;
-
-            OnDeleteProduct?.Invoke(this, productToDelete);
-            Products.Remove(productToDelete);
-
-            context.Products.Delete(productToDelete);
-            context.Products.SaveChanges();
-
-            IsDeletingAProduct = false;
-            productToDelete = null;
-        }
-        #endregion
-
-        [RelayCommand]
-        private void Back()
-        {
-            if (IsDeletingAProduct)
-            {
-                CancelDeletionDialog();
-                productToDelete = null;
-            }
-        }
-
         private Command saveNewProductCommand = null!;
-        public Command SaveNewProductCommand
-        {
-            get => saveNewProductCommand;
-            set => SetProperty(ref saveNewProductCommand, value);
-        }
     }
 }

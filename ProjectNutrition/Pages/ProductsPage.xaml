@@ -37,106 +37,16 @@
         <ScrollView>
             <VerticalStackLayout>
                 <Views:ProductSearchView x:Name="productsDisplay" />
-                
+
                 <Button Text="+" Margin="0, 5, 0, 10" Background="White" Command="{Binding StartCreatingProductCommand}"/>
             </VerticalStackLayout>
         </ScrollView>
-
-        <!--
-        <Grid x:Name="addNewProductWrapper"
-              BackgroundColor="Black" 
-              IsVisible="{Binding IsCreatingAProduct}" 
-              ZIndex="100">
-
-            <Border Padding="5, 15, 5, 15" Margin="50" VerticalOptions="Center">
-                <VerticalStackLayout Spacing="10">
-                    <Grid ColumnDefinitions=".5*, .5*" Margin="0, 5, 0, 5">
-                        <Label Text="Name: " />
-                        <Entry Style="{StaticResource nutritionEntry}" Text="{Binding NewProduct.Name}" />
-                    </Grid>
-
-
-                    <Grid ColumnDefinitions=".5*, .5*" Margin="0, 5, 0, 5">
-                        <Label Text="Calories: " />
-                        <Entry Style="{StaticResource nutritionEntry}" Text="{Binding NewProduct.Calories}" />
-                    </Grid>
-
-                    <Grid ColumnDefinitions=".5*, .5*" Margin="0, 5, 0, 5">
-                        <Label Text="Protein: " />
-                        <Entry Style="{StaticResource nutritionEntry}" Text="{Binding NewProduct.Proteins}" />
-                    </Grid>
-
-                    <Grid ColumnDefinitions=".5*, .5*" Margin="0, 5, 0, 5">
-                        <Label Text="Carbs: " />
-                        <Entry Style="{StaticResource nutritionEntry}" Text="{Binding NewProduct.Carbs}" />
-                    </Grid>
-
-                    <Grid ColumnDefinitions=".5*, .5*" Margin="0, 5, 0, 5">
-                        <Label Text="Fibers: " />
-                        <Entry Style="{StaticResource nutritionEntry}" Text="{Binding NewProduct.Fibers}" />
-                    </Grid>
-
-                    <Grid ColumnDefinitions=".5*, .5*">
-                        <Label Text="Fats: " />
-                        <Entry Style="{StaticResource nutritionEntry}" Text="{Binding NewProduct.Fats}" />
-                    </Grid>
-                </VerticalStackLayout>
-            </Border>
-        </Grid>
-        -->
 
         <Views:NewProductCreationDialogView x:Name="createProductDialog"
                                             BackgroundColor="Black" 
                                             IsVisible="{Binding IsCreatingAProduct}" 
                                             SaveCommand="{Binding SaveNewProductCommand}"
-                                            DefaultProductName="{Binding DefaultProductName}"
+                                            DefaultProductName="{Binding Source={x:Static ViewModels:ProductsViewModel.DefaultProductName}}"
                                             ZIndex="100"/>
-        
-        <Grid x:Name="productDeletionConfirmDialogWrapper" IsVisible="{Binding IsDeletingAProduct}">
-            <Button BackgroundColor="White"
-                    Opacity=".5"
-                    Command="{Binding CancelDeletionDialogCommand}"/>
-
-            <Border StrokeShape="RoundRectangle 25"
-                    StrokeThickness="3"
-                    Stroke="White"
-                    HorizontalOptions="Center" 
-                    VerticalOptions="Center"
-                    Padding="25"
-                    Background="Black">
-
-                <VerticalStackLayout Spacing="15">
-                    <Label>
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <FormattedString.Spans>
-                                    <Span Text="Are you sure you want to delete: " FontSize="Subtitle"/>
-                                    <Span Text="{x:Static system:Environment.NewLine}"/>
-                                    <Span Text="{Binding Name}" FontSize="Title"/>
-                                </FormattedString.Spans>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
-
-                    <HorizontalStackLayout HorizontalOptions="End" Spacing="7" Margin="5">
-                        <Button Text="No"
-                                BackgroundColor="CadetBlue" 
-                                TextColor="White"
-                                BorderColor="White"
-                                BorderWidth="1"
-                                WidthRequest="60"
-                                Command="{Binding CancelDeletionDialogCommand}" />
-
-                        <Button Text="Yes"
-                                BackgroundColor="CadetBlue" 
-                                TextColor="White"
-                                BorderColor="White"
-                                BorderWidth="1"
-                                WidthRequest="60"
-                                Command="{Binding ConfirmDeleteDialogCommand}" />
-                    </HorizontalStackLayout>
-                </VerticalStackLayout>
-            </Border>
-        </Grid>
     </Grid>
 </ContentPage>

@@ -17,12 +17,8 @@ namespace ProjectNutrition.Pages
 
         protected override bool OnBackButtonPressed()
         {
-            if (BindingContext is not ProductsViewModel vm)
-                return false;
-
             createProductDialog.Save();
 
-            vm.BackCommand.Execute(null);
             return true;
         }
     }
