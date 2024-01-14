@@ -15,6 +15,9 @@ namespace ProjectNutrition.ViewModels
             public Product Product { get; set; } = product;
         }
 
+        [ObservableProperty]
+        private bool isEditingEnabled;
+
 
 
         private readonly DataContext context;

@@ -42,7 +42,7 @@
                     <DataTemplate x:DataType="Models:Product">
                         <SwipeView>
                             <SwipeView.LeftItems>
-                                <SwipeItemView>
+                                <SwipeItemView IsVisible="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=IsEditingEnabled}">
                                     <Grid WidthRequest="60" Padding="15">
                                         <ImageButton Source="pen.png" 
                                                      Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=EditProductCommand}" 
@@ -52,7 +52,7 @@
                             </SwipeView.LeftItems>
 
                             <SwipeView.RightItems>
-                                <SwipeItemView>
+                                <SwipeItemView IsVisible="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=IsEditingEnabled}">
                                     <Grid WidthRequest="60" Padding="10">
                                         <ImageButton Source="trashcan.png"
                                                      Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=DeleteProductCommand}" 
@@ -88,7 +88,7 @@
         <Views:ConfirmDialogView IsVisible="{Binding IsDeletingAProduct}"
                                  CancelCommand="{Binding CancelProductDeletionCommand}" 
                                  ConfirmCommand="{Binding ConfirmProductDeletionCommand}">
-            
+
             <Views:ConfirmDialogView.Text>
                 <FormattedString>
                     <FormattedString.Spans>

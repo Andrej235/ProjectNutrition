@@ -21,4 +21,31 @@ public partial class ProductSearchView : ContentView
         if (BindingContext is ProductSearchViewModel vm)
             vm.CloseEditProductDialog();
     }
+
+    public static readonly BindableProperty IsEditingEnabledProperty = BindableProperty.Create(
+        nameof(IsEditingEnabled),
+        typeof(bool),
+        typeof(ProductSearchView),
+        false,
+        propertyChanged: (bindable, old, @new) =>
+        {
+            var @this = (ProductSearchView)bindable;
+
+            if (@new is not bool isEditingEnabled)
+                return;
+
+            @this.IsEditingEnabled = isEditingEnabled;
+        });
+
+    public bool IsEditingEnabled
+    {
+        get => (bool)GetValue(IsEditingEnabledProperty);
+        set
+        {
+            SetValue(IsEditingEnabledProperty, value);
+
+            if (BindingContext is ProductSearchViewModel vm)
+                vm.IsEditingEnabled = value;
+        }
+    }
 }
