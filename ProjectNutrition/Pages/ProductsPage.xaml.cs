@@ -19,6 +19,8 @@ namespace ProjectNutrition.Pages
         {
             createProductDialog.Save();
 
+            productsDisplay.CloseEditingDialog();
+
             return true;
         }
     }

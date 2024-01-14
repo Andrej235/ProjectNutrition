@@ -213,13 +213,23 @@ namespace ProjectNutrition.ViewModels
         #region Editing
         [ObservableProperty]
         private bool isEditingAProduct;
+
+        [ObservableProperty]
         private Product? productToEdit;
 
         [RelayCommand]
         private void EditProduct(Product product)
         {
+            ProductToEdit = product;
             IsEditingAProduct = true;
-            productToEdit = product;
+        }
+
+        public void CloseEditProductDialog()
+        {
+            IsEditingAProduct = false;
+            ProductToEdit = null; //WIP
+
+            context.SaveChanges();
         }
         #endregion
 

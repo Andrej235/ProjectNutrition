@@ -8,7 +8,7 @@ namespace ProjectNutrition.ViewModels
 {
     public partial class ProductsViewModel : ObservableObject
     {
-        //Reimplement editing / deleting --- I deleted this when I implemented the productsearchview, maybe implement it in productsearchview but with a property to enable / disable it???
+        //Reimplement ///editing-done\\\ / deleting --- I deleted this when I implemented the productsearchview, maybe implement it in productsearchview but with a property to enable / disable it???
 
         public class ChangedProductEventArgs(Product createdProduct) : EventArgs
         {

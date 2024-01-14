@@ -15,4 +15,10 @@ public partial class ProductSearchView : ContentView
         if (BindingContext is ProductSearchViewModel vm)
             vm.Products.Add(productToAdd);
     }
+
+    public void CloseEditingDialog()
+    {
+        if (BindingContext is ProductSearchViewModel vm)
+            vm.CloseEditProductDialog();
+    }
 }

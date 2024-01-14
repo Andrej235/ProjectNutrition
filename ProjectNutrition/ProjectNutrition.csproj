@@ -72,6 +72,9 @@
 	  <Compile Update="Views\ConfirmDialogView.xaml.cs">
 	    <DependentUpon>ConfirmDialogView.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\ProductEditingDialogView.xaml.cs">
+	    <DependentUpon>ProductEditingDialogView.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -85,6 +88,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\NewProductCreationDialogView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ProductEditingDialogView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

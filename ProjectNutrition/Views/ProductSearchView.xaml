@@ -85,5 +85,10 @@
         </VerticalStackLayout>
 
         <Views:ConfirmDialogView IsVisible="{Binding IsDeletingAProduct}" CancelCommand="{Binding CancelProductDeletionCommand}" ConfirmCommand="{Binding ConfirmProductDeletionCommand}"/>
+
+        <Views:ProductEditingDialogView x:Name="productEditingDialog"
+                                        IsVisible="{Binding IsEditingAProduct}"
+                                        Product="{Binding ProductToEdit}"
+                                        BackgroundColor="Black"/>
     </Grid>
 </ContentView>

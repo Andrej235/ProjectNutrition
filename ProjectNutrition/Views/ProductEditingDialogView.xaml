@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Models="clr-namespace:ProjectNutrition.Models"
+             xmlns:Views="clr-namespace:ProjectNutrition.Views"
+             x:DataType="Views:ProductEditingDialogView"
+             x:Class="ProjectNutrition.Views.ProductEditingDialogView">
+
+    <ContentView.Resources>
+        <Style TargetType="Entry" x:Key="nutritionEntry">
+            <Setter Property="WidthRequest" Value="130" />
+            <Setter Property="HorizontalTextAlignment" Value="Start" />
+            <Setter Property="HorizontalOptions" Value="Start" />
+            <Setter Property="Grid.Column" Value="1" />
+        </Style>
+    </ContentView.Resources>
+
+    <Grid x:Name="productInputWrapper" BindingContext="{Binding Product}">
+        <Border Padding="5, 15, 5, 15" Margin="50" VerticalOptions="Center" x:DataType="Models:Product">
+            <VerticalStackLayout Spacing="10">
+                <Grid ColumnDefinitions=".5*, .5*" Margin="0, 5, 0, 5">
+                    <Label Text="Name: " />
+                    <Entry Style="{StaticResource nutritionEntry}" Text="{Binding Name}" x:Name="newProductNameField" />
+                </Grid>
+
+                <Grid ColumnDefinitions=".5*, .5*" Margin="0, 5, 0, 5">
+                    <Label Text="Calories: " />
+                    <Entry Style="{StaticResource nutritionEntry}" Text="{Binding Calories}" />
+                </Grid>
+
+                <Grid ColumnDefinitions=".5*, .5*" Margin="0, 5, 0, 5">
+                    <Label Text="Protein: " />
+                    <Entry Style="{StaticResource nutritionEntry}" Text="{Binding Proteins}" />
+                </Grid>
+
+                <Grid ColumnDefinitions=".5*, .5*" Margin="0, 5, 0, 5">
+                    <Label Text="Carbs: " />
+                    <Entry Style="{StaticResource nutritionEntry}" Text="{Binding Carbs}" />
+                </Grid>
+
+                <Grid ColumnDefinitions=".5*, .5*" Margin="0, 5, 0, 5">
+                    <Label Text="Fibers: " />
+                    <Entry Style="{StaticResource nutritionEntry}" Text="{Binding Fibers}" />
+                </Grid>
+
+                <Grid ColumnDefinitions=".5*, .5*">
+                    <Label Text="Fats: " />
+                    <Entry Style="{StaticResource nutritionEntry}" Text="{Binding Fats}" />
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentView>
