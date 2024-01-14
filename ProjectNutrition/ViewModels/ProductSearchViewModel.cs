@@ -32,21 +32,21 @@ namespace ProjectNutrition.ViewModels
             CancelProductDeletionCommand = new(() =>
             {
                 IsDeletingAProduct = false;
-                productToDelete = null;
+                ProductToDelete = null;
             });
 
             ConfirmProductDeletionCommand = new(() =>
             {
-                if (productToDelete is null)
+                if (ProductToDelete is null)
                     return;
 
-                Products.Remove(productToDelete);
+                Products.Remove(ProductToDelete);
 
-                context.Products.Delete(productToDelete);
+                context.Products.Delete(ProductToDelete);
                 context.Products.SaveChanges();
 
                 IsDeletingAProduct = false;
-                productToDelete = null;
+                ProductToDelete = null;
             });
         }
 
@@ -236,6 +236,8 @@ namespace ProjectNutrition.ViewModels
         #region Deletion
         [ObservableProperty]
         private bool isDeletingAProduct;
+
+        [ObservableProperty]
         private Product? productToDelete;
 
         [ObservableProperty]
@@ -250,7 +252,7 @@ namespace ProjectNutrition.ViewModels
             if (productToDelete is not Product product)
                 return;
 
-            this.productToDelete = product;
+            this.ProductToDelete = product;
             IsDeletingAProduct = true;
         }
         #endregion

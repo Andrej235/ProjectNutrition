@@ -45,22 +45,22 @@ public partial class ConfirmDialogView : ContentView
                 @this.ConfirmCommand = command;
         });
 
-    /*    public FormattedString Text
+    public FormattedString Text
+    {
+        get => (FormattedString)GetValue(TextProperty);
+        set => SetValue(TextProperty, value);
+    }
+    public static readonly BindableProperty TextProperty = BindableProperty.Create(
+        nameof(Text),
+        typeof(FormattedString),
+        typeof(ConfirmDialogView),
+        (FormattedString)"Are you sure?",
+        propertyChanged: (bindable, old, @new) =>
         {
-            get => (FormattedString)GetValue(TextProperty);
-            set => SetValue(TextProperty, value);
-        }
-        public static readonly BindableProperty TextProperty = BindableProperty.Create(
-            nameof(Text),
-            typeof(FormattedString),
-            typeof(ConfirmDialogView),
-            "Are you sure?",
-            propertyChanged: (bindable, old, @new) =>
-            {
-                var @this = (ConfirmDialogView)bindable;
-                if (@new is not FormattedString text)
-                    return;
+            var @this = (ConfirmDialogView)bindable;
+            if (@new is not FormattedString text)
+                return;
 
-                @this.confirmTextLabel.FormattedText = text;
-            });*/
+            @this.confirmTextLabel.FormattedText = text;
+        });
 }

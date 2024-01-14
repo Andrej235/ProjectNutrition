@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:system="clr-namespace:System;assembly=netstandard"
              xmlns:Views="clr-namespace:ProjectNutrition.Views"
              xmlns:ViewModels="clr-namespace:ProjectNutrition.ViewModels"
              xmlns:Models="clr-namespace:ProjectNutrition.Models"
@@ -84,7 +85,20 @@
             </CollectionView>
         </VerticalStackLayout>
 
-        <Views:ConfirmDialogView IsVisible="{Binding IsDeletingAProduct}" CancelCommand="{Binding CancelProductDeletionCommand}" ConfirmCommand="{Binding ConfirmProductDeletionCommand}"/>
+        <Views:ConfirmDialogView IsVisible="{Binding IsDeletingAProduct}"
+                                 CancelCommand="{Binding CancelProductDeletionCommand}" 
+                                 ConfirmCommand="{Binding ConfirmProductDeletionCommand}">
+            
+            <Views:ConfirmDialogView.Text>
+                <FormattedString>
+                    <FormattedString.Spans>
+                        <Span Text="Are you sure you want to delete: " FontSize="Subtitle"/>
+                        <Span Text="{x:Static system:Environment.NewLine}"/>
+                        <Span Text="{Binding ProductToDelete.Name}" FontSize="Title"/>
+                    </FormattedString.Spans>
+                </FormattedString>
+            </Views:ConfirmDialogView.Text>
+        </Views:ConfirmDialogView>
 
         <Views:ProductEditingDialogView x:Name="productEditingDialog"
                                         IsVisible="{Binding IsEditingAProduct}"
