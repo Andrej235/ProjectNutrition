@@ -17,72 +17,49 @@ namespace ProjectNutrition.ViewModels
         public MealsViewModel(DataContext context)
         {
             this.context = context;
-            NewMeal = new() { Name = NEW_MEAL_DEFAULT_NAME };
 
             meals = [.. this.context.Meals];
-            newMealProducts = [];
         }
 
         [RelayCommand]
         private void Back()
         {
-            if (IsChoosingIngredient)
-            {
-                IsChoosingIngredient = false;
-            }
-            else if (IsCreatingAMeal)
-            {
+            if (IsCreatingAMeal)
                 IsCreatingAMeal = false;
-                if (NewMeal.Name == NEW_MEAL_DEFAULT_NAME)
-                    return;
 
-                NewMeal.Products = NewMealProducts.Where(x => x.Amount > 0);
+            //TODO: if IsCreatingAMeal should also somehow tell NewMealCreationView to save the new meal, also add bindable properties for default name and save command
 
-                if (!NewMeal.Products.Any())
-                    return;
+            /*            if (IsChoosingIngredient)
+                        {
+                            IsChoosingIngredient = false;
+                        }
+                        else if (IsCreatingAMeal)
+                        {
+                            IsCreatingAMeal = false;
+                            if (NewMeal.Name == NEW_MEAL_DEFAULT_NAME)
+                                return;
 
-                context.Meals.Add(NewMeal);
-                foreach (var x in NewMealProducts)
-                    context.MealProducts.Add(x);
+                            NewMeal.Products = NewMealProducts.Where(x => x.Amount > 0);
 
-                context.SaveChanges();
+                            if (!NewMeal.Products.Any())
+                                return;
 
-                Meals.Add(NewMeal);
-            }
+                            context.Meals.Add(NewMeal);
+                            foreach (var x in NewMealProducts)
+                                context.MealProducts.Add(x);
+
+                            context.SaveChanges();
+
+                            Meals.Add(NewMeal);
+                        }*/
         }
 
         #region Create
         [ObservableProperty]
-        private Meal newMeal;
-
-        [ObservableProperty]
-        private ObservableCollection<MealProduct> newMealProducts;
-
-        [ObservableProperty]
         private bool isCreatingAMeal;
 
-        [ObservableProperty]
-        private bool isChoosingIngredient;
-
         [RelayCommand]
-        private void StartCreatingMeal()
-        {
-            IsCreatingAMeal = true;
-            NewMealProducts = [];
-            NewMeal = new() { Name = NEW_MEAL_DEFAULT_NAME };
-        }
-
-        public void OnProductSelectedAsIngredient(object? sender, ProductSearchViewModel.ProductSelectedEventArgs e)
-        {
-            IsChoosingIngredient = false;
-            NewMealProducts.Add(new(NewMeal, e.Product));
-        }
-
-        [RelayCommand]
-        private void OnBeginSelectingIngredient()
-        {
-            IsChoosingIngredient = true;
-        }
+        private void StartCreatingMeal() => IsCreatingAMeal = true;
         #endregion
     }
 }

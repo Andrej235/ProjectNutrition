@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ViewModels="clr-namespace:ProjectNutrition.ViewModels"
+             xmlns:Views="clr-namespace:ProjectNutrition.Views"
+             xmlns:Models="clr-namespace:ProjectNutrition.Models"
+             x:Class="ProjectNutrition.Views.NewMealCreationDialogView"
+             x:DataType="Views:NewMealCreationDialogView">
+
+    <ContentView.Resources>
+        <Style TargetType="Entry" x:Key="nutritionEntry">
+            <Setter Property="WidthRequest" Value="130" />
+            <Setter Property="HorizontalTextAlignment" Value="Start" />
+            <Setter Property="HorizontalOptions" Value="Start" />
+            <Setter Property="Grid.Column" Value="1" />
+        </Style>
+    </ContentView.Resources>
+
+    <Grid x:Name="wrapper" BackgroundColor="Black" x:DataType="ViewModels:NewMealCreationDialogViewModel">
+        <Grid x:Name="newMealInputWrapper">
+            <Border Padding="5, 15, 5, 15" Margin="50" VerticalOptions="Start">
+                <VerticalStackLayout Spacing="10">
+                    <Grid ColumnDefinitions=".5*, .5*">
+                        <Label Text="Name: " />
+                        <Entry Style="{StaticResource nutritionEntry}" Text="{Binding NewMeal.Name}" />
+                    </Grid>
+
+                    <CollectionView ItemsSource="{Binding NewMealProducts}">
+                        <CollectionView.Header>
+                            <Grid ColumnDefinitions=".6*, .4*" Margin="0, 10, 0, 0">
+                                <Border>
+                                    <Label Text="Ingredient Name" FontAttributes="Bold" />
+                                </Border>
+
+                                <Border Grid.Column="1">
+                                    <Label Text="Amount" FontAttributes="Bold" />
+                                </Border>
+                            </Grid>
+                        </CollectionView.Header>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="Models:MealProduct">
+                                <Grid ColumnDefinitions=".6*, .4*">
+                                    <Border>
+                                        <Label Grid.Column="0" Text="{Binding Product.Name}" />
+                                    </Border>
+
+                                    <Border Grid.Column="1">
+                                        <Entry Grid.Column="1" Text="{Binding Amount}" />
+                                    </Border>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <Button Text="+" Margin="15, 5, 15, 10" Background="White" Command="{Binding BeginSelectingIngredientCommand}"/>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+
+        <Grid IsVisible="{Binding IsChoosingIngredient}" ZIndex="101">
+            <Views:ProductSearchView x:Name="productSearchView" />
+        </Grid>
+    </Grid>
+</ContentView>

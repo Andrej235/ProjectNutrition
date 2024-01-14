@@ -39,6 +39,7 @@ namespace ProjectNutrition
             builder.Services.AddSingleton<DailyGoalViewModel>();
 
             builder.Services.AddTransient<ProductSearchViewModel>();
+            builder.Services.AddTransient<NewMealCreationDialogViewModel>();
 
 #if DEBUG
             builder.Logging.AddDebug();

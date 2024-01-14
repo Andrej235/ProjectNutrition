@@ -8,8 +8,6 @@ public partial class MealsPage : ContentPage
     {
         InitializeComponent();
         BindingContext = vm;
-
-        (productSearchView.BindingContext as ProductSearchViewModel ?? throw new NullReferenceException()).OnProductSelected += vm.OnProductSelectedAsIngredient;
     }
 
     protected override bool OnBackButtonPressed()
