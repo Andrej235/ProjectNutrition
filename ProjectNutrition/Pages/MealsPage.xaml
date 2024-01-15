@@ -8,60 +8,10 @@
              x:DataType="ViewModels:MealsViewModel"
              x:Class="ProjectNutrition.Pages.MealsPage">
 
-    <ContentPage.Resources>
-        <Style TargetType="Border">
-            <Setter Property="Padding" Value="10" />
-            <Setter Property="Stroke" Value="#AAA" />
-            <Setter Property="StrokeShape" Value="RoundRectangle 5" />
-        </Style>
-
-        <Style TargetType="Label">
-            <Setter Property="HorizontalTextAlignment" Value="Center" />
-            <Setter Property="VerticalTextAlignment" Value="Center" />
-        </Style>
-
-        <Converters:MealCalorieConverter x:Key="MealCalories"/>
-        <Converters:MealProteinConverter x:Key="MealProtein"/>
-    </ContentPage.Resources>
-
     <Grid Margin="0, 10, 0, 0">
         <ScrollView>
             <VerticalStackLayout>
-                <CollectionView ItemsSource="{Binding Meals}">
-                    <CollectionView.Header>
-                        <Grid ColumnDefinitions=".57*, .22*, .21*">
-                            <Border Grid.Column="0">
-                                <Label Text="Name" />
-                            </Border>
-
-                            <Border Grid.Column="1">
-                                <Label Text="Calories" />
-                            </Border>
-
-                            <Border Grid.Column="2">
-                                <Label Text="Protein" />
-                            </Border>
-                        </Grid>
-                    </CollectionView.Header>
-
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="Models:Meal">
-                            <Grid ColumnDefinitions=".57*, .22*, .21*">
-                                <Border Grid.Column="0">
-                                    <Label Text="{Binding Name}" />
-                                </Border>
-
-                                <Border Grid.Column="1">
-                                    <Label Text="{Binding ., Converter={StaticResource MealCalories}}" />
-                                </Border>
-
-                                <Border Grid.Column="2">
-                                    <Label Text="{Binding ., Converter={StaticResource MealProtein}}" />
-                                </Border>
-                            </Grid>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                <Views:MealSearchView />
 
                 <Button Text="+" Margin="0, 5, 0, 10" Background="White" Command="{Binding StartCreatingMealCommand}"/>
             </VerticalStackLayout>
