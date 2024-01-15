@@ -9,8 +9,9 @@ namespace ProjectNutrition.ViewModels
     {
         public NewMealCreationDialogViewModel()
         {
-            NewMeal = new();
             NewMealProducts = [];
+            defaultMealName = "Meal";
+            NewMeal = new() { Name = defaultMealName };
         }
 
         [ObservableProperty]
@@ -22,6 +23,24 @@ namespace ProjectNutrition.ViewModels
         [ObservableProperty]
         private bool isChoosingIngredient;
 
+        [ObservableProperty]
+        private Command? saveCommand;
+
+        public string DefaultMealName
+        {
+            get => defaultMealName;
+            set
+            {
+                if (NewMeal.Name == defaultMealName)
+                    NewMeal.Name = value;
+
+                SetProperty(ref defaultMealName, value);
+            }
+        }
+        private string defaultMealName;
+
+
+
         [RelayCommand]
         private void BeginSelectingIngredient()
         {
@@ -32,6 +51,22 @@ namespace ProjectNutrition.ViewModels
         {
             NewMealProducts.Add(new(NewMeal, e.Product));
             IsChoosingIngredient = false;
+        }
+
+        public void Save()
+        {
+            NewMeal.Products = NewMealProducts 
+                .Where(x => x.Amount > 0)
+                .GroupBy(x => x.Product.Id)
+                .Select(x =>
+                {
+                    if (x.Count() == 1)
+                        return x.ElementAt(0);
+                    
+                    var first = x.ElementAt(0);
+                    return new(first.Id, first.Meal, first.Product, x.Sum(x => x.Amount));
+                });
+            SaveCommand?.Execute(NewMeal);
         }
     }
 }

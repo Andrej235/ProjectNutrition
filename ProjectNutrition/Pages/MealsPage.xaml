@@ -8,10 +8,6 @@
              x:DataType="ViewModels:MealsViewModel"
              x:Class="ProjectNutrition.Pages.MealsPage">
 
-    <Shell.BackButtonBehavior>
-        <BackButtonBehavior Command="{Binding BackCommand}"/>
-    </Shell.BackButtonBehavior>
-
     <ContentPage.Resources>
         <Style TargetType="Border">
             <Setter Property="Padding" Value="10" />
@@ -71,6 +67,9 @@
             </VerticalStackLayout>
         </ScrollView>
 
-        <Views:NewMealCreationDialogView IsVisible="{Binding IsCreatingAMeal}"/>
+        <Views:NewMealCreationDialogView x:Name="creationDialogView"
+                                         IsVisible="{Binding IsCreatingAMeal}" 
+                                         DefaultMealName="{x:Static ViewModels:MealsViewModel.NewMealDefaultName}"
+                                         SaveCommand="{Binding SaveNewProductCommand}" />
     </Grid>
 </ContentPage>

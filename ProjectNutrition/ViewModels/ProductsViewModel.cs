@@ -30,22 +30,19 @@ namespace ProjectNutrition.ViewModels
         {
             SaveNewProductCommand = new(newProductObj =>
             {
-                if (newProductObj is not Product newProduct)
+                if (!IsCreatingAProduct || newProductObj is not Product newProduct)
                     return;
 
+                IsCreatingAProduct = false;
+
                 if (newProduct.Name == DEFAULT_PRODUCT_NAME)
-                {
-                    IsCreatingAProduct = false;
                     return;
-                }
 
                 context.Products.Add(newProduct);
                 context.Products.SaveChanges();
 
                 Products.Add(newProduct);
                 OnCreateNewProduct?.Invoke(this, newProduct);
-
-                IsCreatingAProduct = false;
             });
 
             this.context = context;
@@ -59,9 +56,9 @@ namespace ProjectNutrition.ViewModels
 
         [RelayCommand]
         private void StartCreatingProduct() => IsCreatingAProduct = true;
-        #endregion
 
         [ObservableProperty]
         private Command saveNewProductCommand = null!;
+        #endregion
     }
 }

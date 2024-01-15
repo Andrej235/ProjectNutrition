@@ -12,10 +12,8 @@ public partial class MealsPage : ContentPage
 
     protected override bool OnBackButtonPressed()
     {
-        if (BindingContext is not MealsViewModel vm)
-            return false;
+        creationDialogView.Save();
 
-        vm.BackCommand.Execute(null);
         return true;
     }
 }
