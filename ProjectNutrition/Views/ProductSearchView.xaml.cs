@@ -10,7 +10,7 @@ public partial class ProductSearchView : ContentView
         BindingContext = MauiProgram.GetService<ProductSearchViewModel>();
     }
 
-    public void AddNewProduct(Product productToAdd)
+    public void Add(Product productToAdd)
     {
         if (BindingContext is ProductSearchViewModel vm)
             vm.Products.Add(productToAdd);

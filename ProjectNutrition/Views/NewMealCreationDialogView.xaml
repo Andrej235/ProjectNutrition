@@ -8,6 +8,17 @@
              x:DataType="Views:NewMealCreationDialogView">
 
     <ContentView.Resources>
+        <Style TargetType="Border">
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Stroke" Value="#AAA" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 5" />
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="HorizontalTextAlignment" Value="Center" />
+            <Setter Property="VerticalTextAlignment" Value="Center" />
+        </Style>
+
         <Style TargetType="Entry" x:Key="nutritionEntry">
             <Setter Property="WidthRequest" Value="130" />
             <Setter Property="HorizontalTextAlignment" Value="Start" />

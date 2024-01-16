@@ -1,3 +1,4 @@
+using ProjectNutrition.Models;
 using ProjectNutrition.ViewModels;
 
 namespace ProjectNutrition.Views
@@ -7,8 +8,13 @@ namespace ProjectNutrition.Views
         public MealSearchView()
         {
             InitializeComponent();
-
             BindingContext = MauiProgram.GetService<MealSearchViewModel>();
+        }
+
+        public void Add(Meal mealToAdd)
+        {
+            if (BindingContext is MealSearchViewModel vm)
+                vm.Meals.Add(mealToAdd);
         }
     }
 }

@@ -15,7 +15,7 @@
         </Style>
     </ContentView.Resources>
 
-    <Grid x:Name="productInputWrapper" BindingContext="{Binding Product}">
+    <Grid x:Name="productInputWrapper">
         <Border Padding="5, 15, 5, 15" Margin="50" VerticalOptions="Center" x:DataType="Models:Product">
             <VerticalStackLayout Spacing="10">
                 <Grid ColumnDefinitions=".5*, .5*" Margin="0, 5, 0, 5">

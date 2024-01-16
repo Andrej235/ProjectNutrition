@@ -8,13 +8,15 @@ namespace ProjectNutrition.ViewModels
 {
     public partial class ProductsViewModel : ObservableObject
     {
-        public class ChangedProductEventArgs(Product createdProduct) : EventArgs
+        public class ProductCreatedEventArgs(Product createdProduct) : EventArgs
         {
-            public Product Product { get; set; } = createdProduct;
+            public Product Product { get; } = createdProduct;
 
-            public static implicit operator ChangedProductEventArgs(Product product) => new(product);
+            public static implicit operator ProductCreatedEventArgs(Product product) => new(product);
+            public static implicit operator Product(ProductCreatedEventArgs e) => e.Product;
         }
-        public event EventHandler<ChangedProductEventArgs>? OnCreateNewProduct;
+        public event EventHandler<ProductCreatedEventArgs>? OnProductCreated;
+
 
 
         public static string DefaultProductName => DEFAULT_PRODUCT_NAME;
@@ -42,7 +44,7 @@ namespace ProjectNutrition.ViewModels
                 context.Products.SaveChanges();
 
                 Products.Add(newProduct);
-                OnCreateNewProduct?.Invoke(this, newProduct);
+                OnProductCreated?.Invoke(this, newProduct);
             });
 
             this.context = context;

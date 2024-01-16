@@ -8,7 +8,11 @@ public partial class MealsPage : ContentPage
     {
         InitializeComponent();
         BindingContext = vm;
+
+        vm.OnMealCreated += OnMealCreated;
     }
+
+    private void OnMealCreated(object? sender, MealsViewModel.MealCreatedEventArgs e) => mealsDisplay.Add(e);
 
     protected override bool OnBackButtonPressed()
     {

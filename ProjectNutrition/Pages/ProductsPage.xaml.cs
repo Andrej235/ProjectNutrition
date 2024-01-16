@@ -10,10 +10,10 @@ namespace ProjectNutrition.Pages
             InitializeComponent();
             BindingContext = vm;
 
-            vm.OnCreateNewProduct += OnCreateNewProduct;
+            vm.OnProductCreated += OnProductCreated;
         }
 
-        private void OnCreateNewProduct(object? sender, ChangedProductEventArgs e) => productsDisplay.AddNewProduct(e.Product);
+        private void OnProductCreated(object? sender, ProductCreatedEventArgs e) => productsDisplay.Add(e);
 
         protected override bool OnBackButtonPressed()
         {

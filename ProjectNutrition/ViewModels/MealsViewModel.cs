@@ -2,23 +2,28 @@
 using CommunityToolkit.Mvvm.Input;
 using ProjectNutrition.Database;
 using ProjectNutrition.Models;
-using System.Collections.ObjectModel;
 
 namespace ProjectNutrition.ViewModels
 {
     public partial class MealsViewModel : ObservableObject
     {
+        public class MealCreatedEventArgs(Meal meal) : EventArgs
+        {
+            public Meal Meal { get; } = meal;
+
+            public static implicit operator MealCreatedEventArgs(Meal meal) => new(meal);
+            public static implicit operator Meal(MealCreatedEventArgs e) => e.Meal;
+        }
+        public event EventHandler<MealCreatedEventArgs>? OnMealCreated;
+
+
+
         public static string NewMealDefaultName => NEW_MEAL_DEFAULT_NAME;
         private const string NEW_MEAL_DEFAULT_NAME = "My Meal";
 
-        private readonly DataContext context;
-
-        [ObservableProperty]
-        private ObservableCollection<Meal> meals;
-
         public MealsViewModel(DataContext context)
         {
-            SaveNewProductCommand = new(newMealObj =>
+            SaveNewMealCommand = new(newMealObj =>
             {
                 if (!IsCreatingAMeal || newMealObj is not Meal newMeal)
                     return;
@@ -33,12 +38,8 @@ namespace ProjectNutrition.ViewModels
                     context.MealProducts.Add(x);
 
                 context.SaveChanges();
-                Meals.Add(newMeal);
+                OnMealCreated?.Invoke(this, newMeal);
             });
-
-            this.context = context;
-
-            meals = [.. this.context.Meals];
         }
 
         #region Create
@@ -49,7 +50,7 @@ namespace ProjectNutrition.ViewModels
         private void StartCreatingMeal() => IsCreatingAMeal = true;
 
         [ObservableProperty]
-        private Command saveNewProductCommand = null!;
+        private Command saveNewMealCommand = null!;
         #endregion
     }
 }
