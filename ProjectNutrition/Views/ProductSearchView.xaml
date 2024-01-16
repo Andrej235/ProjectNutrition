@@ -41,13 +41,13 @@
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="Models:Product">
-                            <SwipeView>
+                            <SwipeView HeightRequest="70">
                                 <SwipeView.LeftItems>
                                     <SwipeItemView IsVisible="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=IsEditingEnabled}">
                                         <Grid WidthRequest="60" Padding="15">
                                             <ImageButton Source="pen.png" 
-                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=EditProductCommand}" 
-                                                     CommandParameter="{Binding .}" />
+                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=EditProductCommand}" 
+                                                         CommandParameter="{Binding .}" />
                                         </Grid>
                                     </SwipeItemView>
                                 </SwipeView.LeftItems>
@@ -56,8 +56,8 @@
                                     <SwipeItemView IsVisible="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=IsEditingEnabled}">
                                         <Grid WidthRequest="60" Padding="10">
                                             <ImageButton Source="trashcan.png"
-                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=DeleteProductCommand}" 
-                                                     CommandParameter="{Binding .}" />
+                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=DeleteProductCommand}" 
+                                                         CommandParameter="{Binding .}" />
                                         </Grid>
                                     </SwipeItemView>
                                 </SwipeView.RightItems>
@@ -67,8 +67,8 @@
                                         <Grid>
                                             <Label Text="{Binding Name}" />
                                             <Button Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=SelectProductCommand}" 
-                                        CommandParameter="{Binding .}"
-                                        Background="Transparent" />
+                                                    CommandParameter="{Binding .}"
+                                                    Background="Transparent" />
                                         </Grid>
                                     </Border>
 

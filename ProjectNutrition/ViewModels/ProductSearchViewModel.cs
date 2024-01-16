@@ -255,7 +255,7 @@ namespace ProjectNutrition.ViewModels
             if (productToDelete is not Product product)
                 return;
 
-            this.ProductToDelete = product;
+            ProductToDelete = product;
             IsDeletingAProduct = true;
         }
         #endregion

@@ -25,41 +25,67 @@
         <Converters:MealProteinConverter x:Key="MealProtein"/>
     </ContentView.Resources>
 
-    <ScrollView>
-        <CollectionView ItemsSource="{Binding Meals}">
-            <CollectionView.Header>
-                <Grid ColumnDefinitions=".57*, .22*, .21*">
-                    <Border Grid.Column="0">
-                        <Label Text="Name" />
-                    </Border>
+    <AbsoluteLayout VerticalOptions="Fill" HorizontalOptions="Center">
+        <ScrollView AbsoluteLayout.LayoutBounds="0, 0, 390, 725"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    ZIndex="100">
 
-                    <Border Grid.Column="1">
-                        <Label Text="Calories" />
-                    </Border>
-
-                    <Border Grid.Column="2">
-                        <Label Text="Protein" />
-                    </Border>
-                </Grid>
-            </CollectionView.Header>
-
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="Models:Meal">
+            <CollectionView ItemsSource="{Binding Meals}">
+                <CollectionView.Header>
                     <Grid ColumnDefinitions=".57*, .22*, .21*">
                         <Border Grid.Column="0">
-                            <Label Text="{Binding Name}" />
+                            <Label Text="Name" />
                         </Border>
 
                         <Border Grid.Column="1">
-                            <Label Text="{Binding ., Converter={StaticResource MealCalories}}" />
+                            <Label Text="Calories" />
                         </Border>
 
                         <Border Grid.Column="2">
-                            <Label Text="{Binding ., Converter={StaticResource MealProtein}}" />
+                            <Label Text="Protein" />
                         </Border>
                     </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </ScrollView>
+                </CollectionView.Header>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="Models:Meal">
+                        <Grid ColumnDefinitions=".57*, .22*, .21*" HeightRequest="70">
+                            <Grid.GestureRecognizers>
+                                <DragGestureRecognizer CanDrag="True" 
+                                                       DragStartingCommand="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:MealSearchViewModel}}, Path=StartMealDragCommand}"
+                                                       DragStartingCommandParameter="{Binding Source={RelativeSource Self}}"
+                                                       DropCompletedCommand="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:MealSearchViewModel}}, Path=DropMealCommand}"
+                                                       DropCompletedCommandParameter="{Binding Source={RelativeSource Self}}" />
+                            </Grid.GestureRecognizers>
+
+                            <Border Grid.Column="0">
+                                <Label Text="{Binding Name}" />
+                            </Border>
+
+                            <Border Grid.Column="1">
+                                <Label Text="{Binding ., Converter={StaticResource MealCalories}}" />
+                            </Border>
+
+                            <Border Grid.Column="2">
+                                <Label Text="{Binding ., Converter={StaticResource MealProtein}}" />
+                            </Border>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+
+        <Grid AbsoluteLayout.LayoutBounds="0.5, 0.95"
+              AbsoluteLayout.LayoutFlags="PositionProportional"
+              HeightRequest="100"
+              IsVisible="{Binding IsDragingMeal}">
+
+            <Image Source="trashcan.png"/>
+
+            <Grid.GestureRecognizers>
+                <DropGestureRecognizer DropCommand="{Binding ConfirmMealDeletionCommand}" />
+            </Grid.GestureRecognizers>
+        </Grid>
+
+    </AbsoluteLayout>
 </ContentView>

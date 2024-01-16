@@ -1,9 +1,14 @@
-namespace ProjectNutrition.Views;
+using ProjectNutrition.ViewModels;
 
-public partial class MealSearchView : ContentView
+namespace ProjectNutrition.Views
 {
-	public MealSearchView()
-	{
-		InitializeComponent();
-	}
+    public partial class MealSearchView : ContentView
+    {
+        public MealSearchView()
+        {
+            InitializeComponent();
+
+            BindingContext = MauiProgram.GetService<MealSearchViewModel>();
+        }
+    }
 }

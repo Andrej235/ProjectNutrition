@@ -9,13 +9,13 @@
              x:Class="ProjectNutrition.Pages.MealsPage">
 
     <Grid Margin="0, 10, 0, 0">
-        <ScrollView>
-            <VerticalStackLayout>
-                <Views:MealSearchView />
+        <Views:MealSearchView />
 
-                <Button Text="+" Margin="0, 5, 0, 10" Background="White" Command="{Binding StartCreatingMealCommand}"/>
-            </VerticalStackLayout>
-        </ScrollView>
+        <Button Text="+" 
+                Margin="0, 5, 0, 10" 
+                Background="White" 
+                VerticalOptions="End"
+                Command="{Binding StartCreatingMealCommand}"/>
 
         <Views:NewMealCreationDialogView x:Name="creationDialogView"
                                          IsVisible="{Binding IsCreatingAMeal}" 

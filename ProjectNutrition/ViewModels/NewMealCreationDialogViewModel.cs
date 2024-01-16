@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using ProjectNutrition.Models;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace ProjectNutrition.ViewModels
 {
