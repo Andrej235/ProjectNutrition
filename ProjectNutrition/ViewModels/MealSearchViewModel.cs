@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Maui.Controls;
 using ProjectNutrition.Database;
 using ProjectNutrition.Models;
 using System.Collections.ObjectModel;
@@ -9,6 +8,18 @@ namespace ProjectNutrition.ViewModels
 {
     public partial class MealSearchViewModel : ObservableObject
     {
+        public enum DragState
+        {
+            Started,
+            Ended
+        }
+        public class OnMealDragStateChangedEventArgs(DragState newState, Grid elementToAnimate) : EventArgs
+        {
+            public DragState NewState { get; } = newState;
+            public Grid ElementToAnimate { get; } = elementToAnimate;
+        }
+        public event EventHandler<OnMealDragStateChangedEventArgs>? OnMealDragStateChanged;
+
         [ObservableProperty]
         private ObservableCollection<Meal> meals = null!;
 
@@ -30,7 +41,7 @@ namespace ProjectNutrition.ViewModels
             if (element is not DragGestureRecognizer dragGR || dragGR.Parent is not Grid grid || grid.BindingContext is not Meal mealToDelete)
                 return;
 
-            grid.Background = Color.FromRgba(200, 0, 0, 0.5);
+            OnMealDragStateChanged?.Invoke(this, new(DragState.Started, grid));
             this.mealToDelete = mealToDelete;
             IsDragingMeal = true;
         }
@@ -55,7 +66,7 @@ namespace ProjectNutrition.ViewModels
             if (element is not DragGestureRecognizer dragGR || dragGR.Parent is not Grid grid || grid.BindingContext is not Meal)
                 return;
 
-            grid.Background = Color.FromRgba(200, 0, 0, 0);
+            OnMealDragStateChanged?.Invoke(this, new(DragState.Ended, grid));
             mealToDelete = null;
             IsDragingMeal = false;
         }

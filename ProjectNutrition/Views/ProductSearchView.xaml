@@ -10,7 +10,7 @@
 
     <Grid>
         <ScrollView>
-            <VerticalStackLayout BackgroundColor="Black" Spacing="10">
+            <VerticalStackLayout Spacing="10">
                 <SearchBar Margin="10" Text="{Binding SearchTerm}" />
 
                 <CollectionView x:Name="ProductCollection" ItemsSource="{Binding Products}">
