@@ -29,14 +29,23 @@
     </ContentPage.Resources>
 
     <Grid Margin="0, 10, 0, 0">
-        <ScrollView>
-            <VerticalStackLayout>
-                <Views:ProductSearchView x:Name="productsDisplay" IsEditingEnabled="True" />
+        <Views:ProductSearchView x:Name="productsDisplay" IsEditingEnabled="True" />
 
-                <Button Text="+" Margin="0, 5, 0, 10" Background="White" Command="{Binding StartCreatingProductCommand}"/>
-            </VerticalStackLayout>
-        </ScrollView>
+        <Border x:Name="createBtn"
+                WidthRequest="65" 
+                HeightRequest="65"
+                Background="Transparent"
+                StrokeThickness="2"
+                Margin="0, 0, 0, 10"
+                VerticalOptions="End"
+                StrokeShape="RoundRectangle 25">
 
+            <Grid>
+                <Image Source="plus.png" Margin="15"/>
+                <Button Command="{Binding StartCreatingProductCommand}" Background="Transparent" />
+            </Grid>
+        </Border>
+        
         <Views:NewProductCreationDialogView x:Name="createProductDialog"
                                             BackgroundColor="Black" 
                                             IsVisible="{Binding IsCreatingAProduct}" 

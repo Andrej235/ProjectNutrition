@@ -9,6 +9,20 @@ namespace ProjectNutrition.ViewModels
 {
     public partial class ProductSearchViewModel : ObservableObject
     {
+        public enum DragState
+        {
+            Started,
+            Ended
+        }
+        public class OnProductDragStateChangedEventArgs(DragState newState, Grid elementToAnimate) : EventArgs
+        {
+            public DragState NewState { get; } = newState;
+            public Grid ElementToAnimate { get; } = elementToAnimate;
+        }
+        public event EventHandler<OnProductDragStateChangedEventArgs>? OnProductDragStateChanged;
+
+
+
         public event EventHandler<ProductSelectedEventArgs>? OnProductSelected;
         public class ProductSelectedEventArgs(Product product) : EventArgs
         {
@@ -29,28 +43,7 @@ namespace ProjectNutrition.ViewModels
         {
             this.context = context;
             Products = [.. context.Products];
-
             SortByName();
-
-            CancelProductDeletionCommand = new(() =>
-            {
-                IsDeletingAProduct = false;
-                ProductToDelete = null;
-            });
-
-            ConfirmProductDeletionCommand = new(() =>
-            {
-                if (ProductToDelete is null)
-                    return;
-
-                Products.Remove(ProductToDelete);
-
-                context.Products.Delete(ProductToDelete);
-                context.Products.SaveChanges();
-
-                IsDeletingAProduct = false;
-                ProductToDelete = null;
-            });
         }
 
 
@@ -237,26 +230,40 @@ namespace ProjectNutrition.ViewModels
         #endregion
 
         #region Deletion
-        [ObservableProperty]
-        private bool isDeletingAProduct;
-
-        [ObservableProperty]
         private Product? productToDelete;
 
-        [ObservableProperty]
-        private Command cancelProductDeletionCommand = null!;
-
-        [ObservableProperty]
-        private Command confirmProductDeletionCommand = null!;
-
         [RelayCommand]
-        private void DeleteProduct(object productToDelete)
+        private void StartProductDrag(Element element)
         {
-            if (productToDelete is not Product product)
+            if (element is not DragGestureRecognizer dragGR || dragGR.Parent is not Grid grid || grid.BindingContext is not Product productToDelete)
                 return;
 
-            ProductToDelete = product;
-            IsDeletingAProduct = true;
+            OnProductDragStateChanged?.Invoke(this, new(DragState.Started, grid));
+            this.productToDelete = productToDelete;
+        }
+
+        [RelayCommand]
+        private void ConfirmProductDeletion()
+        {
+            if (productToDelete is null)
+                return;
+
+            Products.Remove(productToDelete);
+
+            context.Products.Delete(productToDelete);
+            context.SaveChanges();
+
+            productToDelete = null;
+        }
+
+        [RelayCommand]
+        private void DropProduct(Element element)
+        {
+            if (element is not DragGestureRecognizer dragGR || dragGR.Parent is not Grid grid || grid.BindingContext is not Product)
+                return;
+
+            OnProductDragStateChanged?.Invoke(this, new(DragState.Ended, grid));
+            productToDelete = null;
         }
         #endregion
     }

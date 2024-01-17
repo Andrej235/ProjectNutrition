@@ -8,8 +8,23 @@
              x:DataType="ViewModels:ProductSearchViewModel"
              x:Class="ProjectNutrition.Views.ProductSearchView">
 
-    <Grid>
-        <ScrollView>
+    <ContentView.Resources>
+        <Style TargetType="Border">
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Stroke" Value="#AAA" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 5" />
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="HorizontalTextAlignment" Value="Center" />
+            <Setter Property="VerticalTextAlignment" Value="Center" />
+        </Style>
+    </ContentView.Resources>
+
+    <AbsoluteLayout VerticalOptions="Fill" HorizontalOptions="Center">
+        <ScrollView AbsoluteLayout.LayoutBounds="0, 0, 390, 725"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    ZIndex="100">        
             <VerticalStackLayout Spacing="10">
                 <SearchBar Margin="10" Text="{Binding SearchTerm}" />
 
@@ -41,52 +56,54 @@
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="Models:Product">
-                            <SwipeView HeightRequest="70">
-                                <SwipeView.LeftItems>
-                                    <SwipeItemView IsVisible="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=IsEditingEnabled}">
-                                        <Grid WidthRequest="60" Padding="15">
-                                            <ImageButton Source="pen.png" 
-                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=EditProductCommand}" 
-                                                         CommandParameter="{Binding .}" />
-                                        </Grid>
-                                    </SwipeItemView>
-                                </SwipeView.LeftItems>
+                            <Grid ColumnDefinitions=".57*, .22*, .21*">
+                                <Grid.GestureRecognizers>
+                                    <DragGestureRecognizer CanDrag="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=IsEditingEnabled}"
+                                                           DragStartingCommand="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=StartProductDragCommand}"
+                                                           DragStartingCommandParameter="{Binding Source={RelativeSource Self}}"
+                                                           DropCompletedCommand="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=DropProductCommand}"
+                                                           DropCompletedCommandParameter="{Binding Source={RelativeSource Self}}"/>
+                                </Grid.GestureRecognizers>
 
-                                <SwipeView.RightItems>
-                                    <SwipeItemView IsVisible="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=IsEditingEnabled}">
-                                        <Grid WidthRequest="60" Padding="10">
-                                            <ImageButton Source="trashcan.png"
-                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=DeleteProductCommand}" 
-                                                         CommandParameter="{Binding .}" />
-                                        </Grid>
-                                    </SwipeItemView>
-                                </SwipeView.RightItems>
+                                <Border Grid.Column="0">
+                                    <Grid>
+                                        <Label Text="{Binding Name}" />
+                                        <Button Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=SelectProductCommand}" 
+                                                CommandParameter="{Binding .}"
+                                                Background="Transparent" />
+                                    </Grid>
+                                </Border>
 
-                                <Grid ColumnDefinitions=".57*, .22*, .21*">
-                                    <Border Grid.Column="0">
-                                        <Grid>
-                                            <Label Text="{Binding Name}" />
-                                            <Button Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=SelectProductCommand}" 
-                                                    CommandParameter="{Binding .}"
-                                                    Background="Transparent" />
-                                        </Grid>
-                                    </Border>
+                                <Border Grid.Column="1">
+                                    <Label Text="{Binding Calories}" />
+                                </Border>
 
-                                    <Border Grid.Column="1">
-                                        <Label Text="{Binding Calories}" />
-                                    </Border>
-
-                                    <Border Grid.Column="2">
-                                        <Label Text="{Binding Proteins}" />
-                                    </Border>
-                                </Grid>
-                            </SwipeView>
+                                <Border Grid.Column="2">
+                                    <Label Text="{Binding Proteins}" />
+                                </Border>
+                            </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </VerticalStackLayout>
         </ScrollView>
-        
+
+        <Grid AbsoluteLayout.LayoutBounds="0.5, 0.95"
+              AbsoluteLayout.LayoutFlags="PositionProportional"
+              HeightRequest="100"
+              Opacity="0"
+              ZIndex="1000"
+              x:Name="deleteIcon">
+
+            <Image Source="trashcan.png" />
+
+            <Grid.GestureRecognizers>
+                <DropGestureRecognizer DropCommand="{Binding ConfirmProductDeletionCommand}" />
+            </Grid.GestureRecognizers>
+        </Grid>
+    </AbsoluteLayout>
+    
+    <!--
         <Views:ConfirmDialogView IsVisible="{Binding IsDeletingAProduct}"
                                  CancelCommand="{Binding CancelProductDeletionCommand}" 
                                  ConfirmCommand="{Binding ConfirmProductDeletionCommand}">
@@ -106,5 +123,5 @@
                                         IsVisible="{Binding IsEditingAProduct}"
                                         Product="{Binding ProductToEdit}"
                                         BackgroundColor="Black"/>
-    </Grid>
+        -->
 </ContentView>

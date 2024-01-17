@@ -10,6 +10,22 @@ public partial class MealsPage : ContentPage
         BindingContext = vm;
 
         vm.OnMealCreated += OnMealCreated;
+        mealsDisplay.OnMealDragStateChanged += OnMealDragStateChangedSearchView;
+    }
+
+    private void OnMealDragStateChangedSearchView(object? sender, MealSearchViewModel.OnMealDragStateChangedEventArgs e)
+    {
+        switch (e.NewState)
+        {
+            case MealSearchViewModel.DragState.Started:
+                createBtn.FadeTo(0, 100);
+                break;
+            case MealSearchViewModel.DragState.Ended:
+                createBtn.FadeTo(1, 100);
+                break;
+            default:
+                break;
+        }
     }
 
     private void OnMealCreated(object? sender, MealsViewModel.MealCreatedEventArgs e) => mealsDisplay.Add(e);
