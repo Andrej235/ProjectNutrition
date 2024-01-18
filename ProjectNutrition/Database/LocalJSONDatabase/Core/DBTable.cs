@@ -9,7 +9,7 @@ namespace LocalJSONDatabase.Core
 {
     public class DBTable<TEntity> : IEnumerable<TEntity> where TEntity : class
     {
-        public required List<TEntity> Entities { private get; init; }
+        private List<TEntity> Entities { get; set; }
         private readonly DBContext dBContext;
         private readonly FileWritingService writingService;
         private readonly FileReadingService readingService;
@@ -78,5 +78,7 @@ namespace LocalJSONDatabase.Core
         }
 
         public string GetJSONForm() => readingService.Read();
+
+        public void Reset() => Entities = [];
     }
 }

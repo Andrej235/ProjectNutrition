@@ -9,12 +9,14 @@ namespace ProjectNutrition.Views
     public partial class ProductSearchView : ContentView
     {
         public event EventHandler<OnProductDragStateChangedEventArgs>? OnProductDragStateChanged;
+
+        private readonly ProductSearchViewModel vm;
         public ProductSearchView()
         {
             InitializeComponent();
-            var vm = MauiProgram.GetService<ProductSearchViewModel>() ?? throw new NullReferenceException();
+            vm = MauiProgram.GetService<ProductSearchViewModel>() ?? throw new NullReferenceException();
 
-            BindingContext = vm;
+            wrapper.BindingContext = vm;
             vm.OnProductDragStateChanged += OnProductDragStateChangedVM;
         }
 
@@ -40,18 +42,19 @@ namespace ProjectNutrition.Views
             OnProductDragStateChanged?.Invoke(sender, e);
         }
 
-        public void Add(Product productToAdd)
-        {
-            if (BindingContext is ProductSearchViewModel vm)
-                vm.Products.Add(productToAdd);
-        }
+        public void Add(Product productToAdd) => vm.Products.Add(productToAdd);
 
-        public void CloseEditingDialog()
-        {
-            if (BindingContext is ProductSearchViewModel vm)
-                vm.CloseEditProductDialog();
-        }
+        public void CloseEditingDialog() => vm.CloseEditProductDialog();
 
+        public bool IsEditingEnabled
+        {
+            get => (bool)GetValue(IsEditingEnabledProperty);
+            set
+            {
+                SetValue(IsEditingEnabledProperty, value);
+                vm.IsEditingEnabled = value;
+            }
+        }
         public static readonly BindableProperty IsEditingEnabledProperty = BindableProperty.Create(
             nameof(IsEditingEnabled),
             typeof(bool),
@@ -67,16 +70,25 @@ namespace ProjectNutrition.Views
                 @this.IsEditingEnabled = isEditingEnabled;
             });
 
-        public bool IsEditingEnabled
+        public Command SelectCommand
         {
-            get => (bool)GetValue(IsEditingEnabledProperty);
+            get => (Command)GetValue(SelectCommandProperty);
             set
             {
-                SetValue(IsEditingEnabledProperty, value);
-
-                if (BindingContext is ProductSearchViewModel vm)
-                    vm.IsEditingEnabled = value;
+                SetValue(SelectCommandProperty, value);
+                vm.SelectCommand = value;
             }
         }
+        public static readonly BindableProperty SelectCommandProperty = BindableProperty.Create(
+            nameof(SelectCommand),
+            typeof(Command),
+            typeof(ProductSearchView),
+            new Command(() => throw new NotImplementedException()),
+            propertyChanged: (bindable, old, @new) =>
+            {
+                var @this = (ProductSearchView)bindable;
+                if (@new is Command command)
+                    @this.SelectCommand = command;
+            });
     }
 }

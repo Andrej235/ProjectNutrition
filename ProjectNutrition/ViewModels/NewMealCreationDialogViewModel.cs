@@ -13,6 +13,15 @@ namespace ProjectNutrition.ViewModels
             NewMealProducts = [];
             defaultMealName = "Meal";
             NewMeal = new() { Name = defaultMealName };
+
+            SelectProductAsIngredientCommand = new((newProductObj) =>
+            {
+                if (newProductObj is not Product product)
+                    return;
+
+                NewMealProducts.Add(new(NewMeal, product));
+                IsChoosingIngredient = false;
+            });
         }
 
         [ObservableProperty]
@@ -48,11 +57,8 @@ namespace ProjectNutrition.ViewModels
             IsChoosingIngredient = true;
         }
 
-        public void OnProductSelectedAsIngredient(object? sender, ProductSearchViewModel.ProductSelectedEventArgs e)
-        {
-            NewMealProducts.Add(new(NewMeal, e.Product));
-            IsChoosingIngredient = false;
-        }
+        [ObservableProperty]
+        private Command selectProductAsIngredientCommand = null!;
 
         public void Save()
         {

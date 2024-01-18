@@ -21,10 +21,10 @@
         </Style>
     </ContentView.Resources>
 
-    <AbsoluteLayout VerticalOptions="Fill" HorizontalOptions="Center">
+    <AbsoluteLayout VerticalOptions="Fill" HorizontalOptions="Center" x:Name="wrapper">
         <ScrollView AbsoluteLayout.LayoutBounds="0, 0, 390, 725"
                     AbsoluteLayout.LayoutFlags="PositionProportional"
-                    ZIndex="100">        
+                    ZIndex="100">
             <VerticalStackLayout Spacing="10">
                 <SearchBar Margin="10" Text="{Binding SearchTerm}" />
 
@@ -56,22 +56,20 @@
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="Models:Product">
-                            <Grid ColumnDefinitions=".57*, .22*, .21*">
+                            <Grid ColumnDefinitions=".57*, .22*, .21*" HeightRequest="70">
                                 <Grid.GestureRecognizers>
                                     <DragGestureRecognizer CanDrag="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=IsEditingEnabled}"
                                                            DragStartingCommand="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=StartProductDragCommand}"
                                                            DragStartingCommandParameter="{Binding Source={RelativeSource Self}}"
                                                            DropCompletedCommand="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=DropProductCommand}"
                                                            DropCompletedCommandParameter="{Binding Source={RelativeSource Self}}"/>
+
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=SelectProductCommand}"
+                                                          CommandParameter="{Binding .}"/>
                                 </Grid.GestureRecognizers>
 
                                 <Border Grid.Column="0">
-                                    <Grid>
-                                        <Label Text="{Binding Name}" />
-                                        <Button Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:ProductSearchViewModel}}, Path=SelectProductCommand}" 
-                                                CommandParameter="{Binding .}"
-                                                Background="Transparent" />
-                                    </Grid>
+                                    <Label Text="{Binding Name}" />
                                 </Border>
 
                                 <Border Grid.Column="1">
@@ -102,7 +100,7 @@
             </Grid.GestureRecognizers>
         </Grid>
     </AbsoluteLayout>
-    
+
     <!--
         <Views:ConfirmDialogView IsVisible="{Binding IsDeletingAProduct}"
                                  CancelCommand="{Binding CancelProductDeletionCommand}" 

@@ -23,16 +23,8 @@ namespace ProjectNutrition.ViewModels
 
 
 
-        public event EventHandler<ProductSelectedEventArgs>? OnProductSelected;
-        public class ProductSelectedEventArgs(Product product) : EventArgs
-        {
-            public Product Product { get; set; } = product;
-        }
-
         [ObservableProperty]
         private bool isEditingEnabled;
-
-
 
         private readonly DataContext context;
 
@@ -48,7 +40,11 @@ namespace ProjectNutrition.ViewModels
 
 
         [RelayCommand]
-        private void SelectProduct(Product product) => OnProductSelected?.Invoke(this, new ProductSelectedEventArgs(product));
+        private void SelectProduct(Product product) => SelectCommand?.Execute(product);
+
+        [ObservableProperty]
+        private Command? selectCommand;
+
 
         #region Searching
         public string SearchTerm

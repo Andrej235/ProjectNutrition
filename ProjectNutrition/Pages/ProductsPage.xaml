@@ -5,6 +5,7 @@
              xmlns:Models="clr-namespace:ProjectNutrition.Models"
              xmlns:Views="clr-namespace:ProjectNutrition.Views"
              xmlns:ViewModels="clr-namespace:ProjectNutrition.ViewModels"
+             xmlns:Toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="ProjectNutrition.Pages.ProductsPage"
              x:DataType="ViewModels:ProductsViewModel">
 
@@ -29,7 +30,7 @@
     </ContentPage.Resources>
 
     <Grid Margin="0, 10, 0, 0">
-        <Views:ProductSearchView x:Name="productsDisplay" IsEditingEnabled="True" />
+        <Views:ProductSearchView x:Name="productsDisplay" IsEditingEnabled="True" SelectCommand="{Binding SelectProductCommand}"/>
 
         <Border x:Name="createBtn"
                 WidthRequest="65" 
@@ -52,5 +53,8 @@
                                             SaveCommand="{Binding SaveNewProductCommand}"
                                             DefaultProductName="{Binding Source={x:Static ViewModels:ProductsViewModel.DefaultProductName}}"
                                             ZIndex="100"/>
+
+        <Views:FullScreenProductView IsVisible="{Binding SelectedProduct, Converter={Toolkit:IsNotNullConverter}}"
+                                     Product="{Binding SelectedProduct}" />
     </Grid>
 </ContentPage>

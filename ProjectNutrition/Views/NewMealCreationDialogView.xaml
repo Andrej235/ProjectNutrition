@@ -70,7 +70,7 @@
         </Grid>
 
         <Grid IsVisible="{Binding IsChoosingIngredient}" ZIndex="101">
-            <Views:ProductSearchView x:Name="productSearchView" Background="Black"/>
+            <Views:ProductSearchView x:Name="productSearchView" Background="Black" SelectCommand="{Binding SelectProductAsIngredientCommand}" />
         </Grid>
     </Grid>
 </ContentView>

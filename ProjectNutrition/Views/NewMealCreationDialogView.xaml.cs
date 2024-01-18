@@ -10,7 +10,6 @@ namespace ProjectNutrition.Views
             InitializeComponent();
 
             VM = MauiProgram.GetService<NewMealCreationDialogViewModel>() ?? throw new NullReferenceException();
-            (productSearchView.BindingContext as ProductSearchViewModel ?? throw new NullReferenceException()).OnProductSelected += VM.OnProductSelectedAsIngredient;
 
             wrapper.BindingContext = VM;
         }

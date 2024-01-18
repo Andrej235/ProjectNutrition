@@ -55,6 +55,7 @@ namespace ProjectNutrition.ViewModels
             Meals.Remove(mealToDelete);
 
             context.Meals.Delete(mealToDelete);
+            context.MealProducts.Delete(mealToDelete.Products);
             context.SaveChanges();
 
             mealToDelete = null;

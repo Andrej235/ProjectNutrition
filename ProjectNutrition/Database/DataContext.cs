@@ -4,7 +4,7 @@ using ProjectNutrition.Models;
 
 namespace ProjectNutrition.Database
 {
-    public class DataContext: DBContext
+    public class DataContext : DBContext
     {
         private string dbDirPath = "";
 

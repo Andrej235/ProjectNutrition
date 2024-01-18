@@ -1,4 +1,5 @@
-﻿using ProjectNutrition.ViewModels;
+﻿using CommunityToolkit.Maui.Converters;
+using ProjectNutrition.ViewModels;
 using static ProjectNutrition.ViewModels.ProductsViewModel;
 
 namespace ProjectNutrition.Pages
@@ -33,6 +34,9 @@ namespace ProjectNutrition.Pages
 
         protected override bool OnBackButtonPressed()
         {
+            if (BindingContext is ProductsViewModel vm)
+                vm.BackButtonPressed();
+
             createProductDialog.Save();
 
             productsDisplay.CloseEditingDialog();
