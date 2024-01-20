@@ -19,6 +19,7 @@ namespace ProjectNutrition.Views
             {
                 SetValue(ProductProperty, value);
                 VM.Product = value;
+                mealsDisplay.Meals = [.. value?.UsedInMeals.Select(x => x.Meal)];
             }
         }
 

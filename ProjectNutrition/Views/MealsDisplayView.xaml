@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Views="clr-namespace:ProjectNutrition.Views"
+             xmlns:ViewModels="clr-namespace:ProjectNutrition.ViewModels"
+             xmlns:Models="clr-namespace:ProjectNutrition.Models"
+             xmlns:Converters="clr-namespace:ProjectNutrition.ValueConverters"
+             x:DataType="Views:MealsDisplayView"
+             x:Class="ProjectNutrition.Views.MealsDisplayView">
+
+    <ContentView.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="HorizontalTextAlignment" Value="Center" />
+            <Setter Property="VerticalTextAlignment" Value="Center" />
+        </Style>
+        
+        <Converters:MealCalorieConverter x:Key="MealCalories"/>
+        <Converters:MealProteinConverter x:Key="MealProtein"/>
+    </ContentView.Resources>
+    
+    <Grid x:DataType="ViewModels:MealDisplayViewModel" x:Name="wrapper">
+        <CollectionView ItemsSource="{Binding Meals}">
+            <CollectionView.Header>
+                <Grid ColumnDefinitions=".57*, .22*, .21*">
+                    <Border Grid.Column="0">
+                        <Label Text="Name" />
+                    </Border>
+
+                    <Border Grid.Column="1">
+                        <Label Text="Calories" />
+                    </Border>
+
+                    <Border Grid.Column="2">
+                        <Label Text="Protein" />
+                    </Border>
+                </Grid>
+            </CollectionView.Header>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="Models:Meal">
+                    <Grid ColumnDefinitions=".57*, .22*, .21*" HeightRequest="70">
+                        <Border Grid.Column="0">
+                            <Label Text="{Binding Name}" />
+                        </Border>
+
+                        <Border Grid.Column="1">
+                            <Label Text="{Binding ., Converter={StaticResource MealCalories}}" />
+                        </Border>
+
+                        <Border Grid.Column="2">
+                            <Label Text="{Binding ., Converter={StaticResource MealProtein}}" />
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentView>
