@@ -98,7 +98,7 @@ namespace ProjectNutrition.ViewModels
         public void CloseEditProductDialog()
         {
             IsEditingAProduct = false;
-            ProductToEdit = null; //WIP
+            ProductToEdit = null;
 
             context.SaveChanges();
         }

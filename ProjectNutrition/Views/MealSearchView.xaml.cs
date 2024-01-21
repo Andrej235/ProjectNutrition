@@ -8,14 +8,16 @@ namespace ProjectNutrition.Views
 {
     public partial class MealSearchView : ContentView
     {
+        private readonly MealSearchViewModel vm;
+
         public event EventHandler<OnMealDragStateChangedEventArgs>? OnMealDragStateChanged;
 
         public MealSearchView()
         {
             InitializeComponent();
-            var vm = MauiProgram.GetService<MealSearchViewModel>() ?? throw new NullReferenceException();
+            vm = MauiProgram.GetService<MealSearchViewModel>() ?? throw new NullReferenceException();
 
-            BindingContext = vm;
+            wrapper.BindingContext = vm;
             vm.OnMealDragStateChanged += OnMealDragStateChangedVM;
         }
 
@@ -46,5 +48,50 @@ namespace ProjectNutrition.Views
             if (BindingContext is MealSearchViewModel vm)
                 vm.Meals.Add(mealToAdd);
         }
+
+        public bool IsEditingEnabled
+        {
+            get => (bool)GetValue(IsEditingEnabledProperty);
+            set
+            {
+                SetValue(IsEditingEnabledProperty, value);
+                vm.IsEditingEnabled = value;
+            }
+        }
+        public static readonly BindableProperty IsEditingEnabledProperty = BindableProperty.Create(
+            nameof(IsEditingEnabled),
+            typeof(bool),
+            typeof(MealSearchView),
+            false,
+            propertyChanged: (bindable, old, @new) =>
+            {
+                var @this = (MealSearchView)bindable;
+
+                if (@new is not bool isEditingEnabled)
+                    return;
+
+                @this.IsEditingEnabled = isEditingEnabled;
+            });
+
+        public Command SelectCommand
+        {
+            get => (Command)GetValue(SelectCommandProperty);
+            set
+            {
+                SetValue(SelectCommandProperty, value);
+                vm.SelectCommand = value;
+            }
+        }
+        public static readonly BindableProperty SelectCommandProperty = BindableProperty.Create(
+            nameof(SelectCommand),
+            typeof(Command),
+            typeof(MealSearchView),
+            new Command(() => throw new NotImplementedException()),
+            propertyChanged: (bindable, old, @new) =>
+            {
+                var @this = (MealSearchView)bindable;
+                if (@new is Command command)
+                    @this.SelectCommand = command;
+            });
     }
 }

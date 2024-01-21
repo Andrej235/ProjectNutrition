@@ -20,9 +20,12 @@ namespace ProjectNutrition.ViewModels
 
         public static string NewMealDefaultName => NEW_MEAL_DEFAULT_NAME;
         private const string NEW_MEAL_DEFAULT_NAME = "My Meal";
+        private readonly DataContext context;
 
         public MealsViewModel(DataContext context)
         {
+            this.context = context;
+
             SaveNewMealCommand = new(newMealObj =>
             {
                 if (!IsCreatingAMeal || newMealObj is not Meal newMeal)
@@ -40,6 +43,8 @@ namespace ProjectNutrition.ViewModels
                 context.SaveChanges();
                 OnMealCreated?.Invoke(this, newMeal);
             });
+
+            SelectMealCommand = new Command(selectedMealObj => SelectedMeal = selectedMealObj as Meal);
         }
 
         #region Create
@@ -51,6 +56,45 @@ namespace ProjectNutrition.ViewModels
 
         [ObservableProperty]
         private Command saveNewMealCommand = null!;
+        #endregion
+
+        #region Selection
+        [ObservableProperty]
+        private Meal? selectedMeal;
+
+        [ObservableProperty]
+        private Command selectMealCommand;
+
+        public void BackButtonPressed()
+        {
+            if (SelectedMeal is null)
+                return;
+
+            if (IsEditingAMeal)
+                CloseEditMealDialog();
+            else
+                SelectedMeal = null;
+        }
+
+        #region Editing
+        [ObservableProperty]
+        private bool isEditingAMeal;
+
+        [ObservableProperty]
+        private Meal? mealToEdit;
+
+        [ObservableProperty]
+        private Command editCommand; //TODO: Implement editing
+
+        public void CloseEditMealDialog()
+        {
+            IsEditingAMeal = false;
+            MealToEdit = null;
+
+            context.SaveChanges();
+        }
+        #endregion
+
         #endregion
     }
 }

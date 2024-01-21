@@ -43,6 +43,7 @@ namespace ProjectNutrition
             builder.Services.AddTransient<MealSearchViewModel>();
             builder.Services.AddTransient<FullScreenProductViewModel>();
             builder.Services.AddTransient<MealDisplayViewModel>();
+            builder.Services.AddTransient<FullScreenMealViewModel>();
 
 #if DEBUG
             builder.Logging.AddDebug();

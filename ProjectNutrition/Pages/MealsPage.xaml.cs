@@ -34,6 +34,10 @@ public partial class MealsPage : ContentPage
     {
         creationDialogView.Save();
 
+        if (BindingContext is not MealsViewModel vm)
+            return true;
+
+        vm.BackButtonPressed();
         return true;
     }
 }

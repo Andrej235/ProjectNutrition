@@ -30,6 +30,15 @@ namespace ProjectNutrition.ViewModels
             Meals = [.. context.Meals];
         }
 
+        [RelayCommand]
+        private void SelectMeal(Meal meal) => SelectCommand?.Execute(meal);
+
+        [ObservableProperty]
+        private Command? selectCommand;
+
+        [ObservableProperty]
+        private bool isEditingEnabled;
+
         #region Deletion
         [ObservableProperty]
         private bool isDragingMeal;

@@ -87,6 +87,9 @@
 	  <MauiXaml Update="Views\ConfirmDialogView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\FullScreenMealView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\FullScreenProductView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

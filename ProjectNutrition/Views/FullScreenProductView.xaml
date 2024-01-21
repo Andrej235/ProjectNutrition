@@ -26,7 +26,7 @@
         </Style>
     </ContentView.Resources>
 
-    <Grid>
+    <Grid x:Name="wrapper" Background="Black">
         <ImageButton Source="pen.png" 
                      HorizontalOptions="End" 
                      VerticalOptions="Start" 
@@ -36,9 +36,7 @@
                      ZIndex="101"
                      Command="{Binding EditCommand}" />
 
-        <VerticalStackLayout x:Name="wrapper"
-                             Background="Black" 
-                             Spacing="15">
+        <VerticalStackLayout Spacing="15">
 
             <Label Text="{Binding Product.Name}" FontSize="Title" Margin="0, 20, 0, 10"/>
 

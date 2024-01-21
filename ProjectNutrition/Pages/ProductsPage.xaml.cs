@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Maui.Converters;
-using ProjectNutrition.ViewModels;
+﻿using ProjectNutrition.ViewModels;
 using static ProjectNutrition.ViewModels.ProductsViewModel;
 
 namespace ProjectNutrition.Pages

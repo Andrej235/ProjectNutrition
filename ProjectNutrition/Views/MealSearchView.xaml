@@ -25,7 +25,7 @@
         <Converters:MealProteinConverter x:Key="MealProtein"/>
     </ContentView.Resources>
 
-    <AbsoluteLayout VerticalOptions="Fill" HorizontalOptions="Center">
+    <AbsoluteLayout VerticalOptions="Fill" HorizontalOptions="Center" x:Name="wrapper">
         <ScrollView AbsoluteLayout.LayoutBounds="0, 0, 390, 725"
                     AbsoluteLayout.LayoutFlags="PositionProportional"
                     ZIndex="100">
@@ -56,6 +56,9 @@
                                                        DragStartingCommandParameter="{Binding Source={RelativeSource Self}}"
                                                        DropCompletedCommand="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:MealSearchViewModel}}, Path=DropMealCommand}"
                                                        DropCompletedCommandParameter="{Binding Source={RelativeSource Self}}" />
+
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:MealSearchViewModel}}, Path=SelectMealCommand}"
+                                                      CommandParameter="{Binding .}"/>
                             </Grid.GestureRecognizers>
 
                             <Border Grid.Column="0">
