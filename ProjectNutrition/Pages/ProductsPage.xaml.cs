@@ -34,13 +34,12 @@ namespace ProjectNutrition.Pages
 
         protected override bool OnBackButtonPressed()
         {
-            if (BindingContext is ProductsViewModel vm)
-                vm.BackButtonPressed();
-
             createProductDialog.Save();
 
-            productsDisplay.CloseEditingDialog();
+            if (BindingContext is not ProductsViewModel vm)
+                return true;
 
+            vm.BackButtonPressed();
             return true;
         }
     }

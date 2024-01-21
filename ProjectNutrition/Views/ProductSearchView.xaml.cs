@@ -44,8 +44,6 @@ namespace ProjectNutrition.Views
 
         public void Add(Product productToAdd) => vm.Products.Add(productToAdd);
 
-        public void CloseEditingDialog() => vm.CloseEditProductDialog();
-
         public bool IsEditingEnabled
         {
             get => (bool)GetValue(IsEditingEnabledProperty);

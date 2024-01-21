@@ -33,13 +33,15 @@ namespace ProjectNutrition.ViewModels
                 OnProductCreated?.Invoke(this, newProduct);
             });
 
+            EditCommand = new(() => IsEditingAProduct = true);
+
             SelectProductCommand = new(selectedProductObj => SelectedProduct = selectedProductObj as Product);
 
             this.context = context;
             IsCreatingAProduct = false;
             Products = [.. this.context.Products];
         }
-        
+
 
 
         #region Create
@@ -74,8 +76,34 @@ namespace ProjectNutrition.ViewModels
 
         public void BackButtonPressed()
         {
-            SelectedProduct = null;
+            if (SelectedProduct is null)
+                return;
+
+            if (IsEditingAProduct)
+                CloseEditProductDialog();
+            else
+                SelectedProduct = null;
         }
+
+        #region Editing
+        [ObservableProperty]
+        private bool isEditingAProduct;
+
+        [ObservableProperty]
+        private Product? productToEdit;
+
+        [ObservableProperty]
+        private Command editCommand;
+
+        public void CloseEditProductDialog()
+        {
+            IsEditingAProduct = false;
+            ProductToEdit = null; //WIP
+
+            context.SaveChanges();
+        }
+        #endregion
+
         #endregion
     }
 }

@@ -12,6 +12,8 @@ namespace ProjectNutrition.Views
             wrapper.BindingContext = VM;
         }
 
+        public FullScreenProductViewModel VM { get; }
+
         public Product? Product
         {
             get => (Product)GetValue(ProductProperty);
@@ -22,9 +24,6 @@ namespace ProjectNutrition.Views
                 mealsDisplay.Meals = [.. value?.UsedInMeals.Select(x => x.Meal)];
             }
         }
-
-        public FullScreenProductViewModel VM { get; }
-
         public static readonly BindableProperty ProductProperty = BindableProperty.Create(
             nameof(Product),
             typeof(Product),
@@ -39,6 +38,31 @@ namespace ProjectNutrition.Views
                     return;
 
                 @this.Product = product;
+            });
+
+        public Command EditCommand
+        {
+            get => (Command)GetValue(EditCommandProperty);
+            set
+            {
+                SetValue(EditCommandProperty, value);
+                VM.EditCommand = value;
+            }
+        }
+        public static readonly BindableProperty EditCommandProperty = BindableProperty.Create(
+            nameof(EditCommand),
+            typeof(Command),
+            typeof(FullScreenProductViewModel),
+            new Command(() => throw new NotImplementedException()),
+            BindingMode.TwoWay,
+            propertyChanged: (bindable, old, @new) =>
+            {
+                var @this = (FullScreenProductView)bindable;
+
+                if (@new is not Command command)
+                    return;
+
+                @this.EditCommand = command;
             });
     }
 }

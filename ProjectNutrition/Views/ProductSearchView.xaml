@@ -100,26 +100,4 @@
             </Grid.GestureRecognizers>
         </Grid>
     </AbsoluteLayout>
-
-    <!--
-        <Views:ConfirmDialogView IsVisible="{Binding IsDeletingAProduct}"
-                                 CancelCommand="{Binding CancelProductDeletionCommand}" 
-                                 ConfirmCommand="{Binding ConfirmProductDeletionCommand}">
-
-            <Views:ConfirmDialogView.Text>
-                <FormattedString>
-                    <FormattedString.Spans>
-                        <Span Text="Are you sure you want to delete: " FontSize="Subtitle"/>
-                        <Span Text="{x:Static system:Environment.NewLine}"/>
-                        <Span Text="{Binding ProductToDelete.Name}" FontSize="Title"/>
-                    </FormattedString.Spans>
-                </FormattedString>
-            </Views:ConfirmDialogView.Text>
-        </Views:ConfirmDialogView>
-
-        <Views:ProductEditingDialogView x:Name="productEditingDialog"
-                                        IsVisible="{Binding IsEditingAProduct}"
-                                        Product="{Binding ProductToEdit}"
-                                        BackgroundColor="Black"/>
-        -->
 </ContentView>

@@ -55,6 +55,12 @@
                                             ZIndex="100"/>
 
         <Views:FullScreenProductView IsVisible="{Binding SelectedProduct, Converter={Toolkit:IsNotNullConverter}}"
-                                     Product="{Binding SelectedProduct}" />
+                                     Product="{Binding SelectedProduct}" 
+                                     EditCommand="{Binding EditCommand}" />
+
+        <Views:ProductEditingDialogView x:Name="productEditingDialog"
+                                        IsVisible="{Binding IsEditingAProduct}"
+                                        Product="{Binding SelectedProduct}"
+                                        BackgroundColor="Black"/>
     </Grid>
 </ContentPage>

@@ -7,5 +7,8 @@ namespace ProjectNutrition.ViewModels
     {
         [ObservableProperty]
         private Product? product;
+
+        [ObservableProperty]
+        private Command editCommand = null!;
     }
 }
