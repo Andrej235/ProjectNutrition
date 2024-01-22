@@ -7,7 +7,90 @@
              x:DataType="ViewModels:FullScreenMealViewModel"
              x:Class="ProjectNutrition.Views.FullScreenMealView">
 
+    <ContentView.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="Subtitle" />
+            <Setter Property="HorizontalTextAlignment" Value="Center" />
+            <Setter Property="TextColor" Value="White" />
+        </Style>
+
+        <Style TargetType="Grid" x:Key="NutrientGrid">
+            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="ColumnDefinitions" Value=".5*, .5*" />
+            <Setter Property="ColumnSpacing" Value="10" />
+            <Setter Property="Margin" Value="10, 5, 10, 0" />
+        </Style>
+
+        <Style TargetType="Border" x:Key="Separator">
+            <Setter Property="StrokeShape" Value="Line -100, 0, 1000, 0" />
+            <Setter Property="Margin" Value="0, 10, 0, 10" />
+        </Style>
+    </ContentView.Resources>
+
     <Grid x:Name="wrapper" BackgroundColor="Black">
-        <Label Text="{Binding Meal.Name}" HorizontalOptions="Center"/>
+        <ImageButton Source="pen.png" 
+                     HorizontalOptions="End" 
+                     VerticalOptions="Start" 
+                     WidthRequest="40"
+                     HeightRequest="40"
+                     Margin="10"
+                     ZIndex="101"
+                     Command="{Binding EditCommand}" />
+
+        <VerticalStackLayout Spacing="15">
+            <Label Text="{Binding Meal.Name}" FontSize="Title" Margin="0, 20, 0, 10"/>
+
+            <FlexLayout JustifyContent="Center" HorizontalOptions="Fill">
+                <Grid Style="{StaticResource NutrientGrid}">
+                    <Label Text="Calories:" />
+                    <Label Text="{Binding Calories}" Grid.Column="1"/>
+                </Grid>
+
+                <Grid Style="{StaticResource NutrientGrid}">
+                    <Label Text="Proteins:" />
+                    <Label Text="{Binding Proteins}" Grid.Column="1"/>
+                </Grid>
+            </FlexLayout>
+
+            <FlexLayout JustifyContent="Center" HorizontalOptions="Fill">
+                <Grid Style="{StaticResource NutrientGrid}">
+                    <Label Text="Carbs:" />
+                    <Label Text="{Binding Carbs}" Grid.Column="1"/>
+                </Grid>
+
+                <Grid Style="{StaticResource NutrientGrid}">
+                    <Label Text="Fibers:" />
+                    <Label Text="{Binding Fibers}" Grid.Column="1"/>
+                </Grid>
+
+                <Grid Style="{StaticResource NutrientGrid}" Grid.Column="1">
+                    <Label Text="Fats:" />
+                    <Label Text="{Binding Fats}" Grid.Column="1"/>
+                </Grid>
+            </FlexLayout>
+
+            <Border Style="{StaticResource Separator}" />
+            
+            <CollectionView ItemsSource="{Binding Meal.Products}">
+                <CollectionView.Header>
+                    <Label Text="Ingredients" FontSize="Title" Margin="0, 0, 0, 20"/>
+                </CollectionView.Header>
+                
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="Models:MealProduct">
+                        <Border Margin="15, 7, 15, 7" 
+                                Padding="0, 10, 0, 10"
+                                StrokeShape="RoundRectangle 50">
+                            
+                            <Grid ColumnDefinitions=".5*, Auto, .5*">
+                                <Label Text="{Binding Product.Name}" />
+                                <Border Grid.Column="1" StrokeShape="Line 0, -100, 0, 100"/>
+                                <Label Text="{Binding Amount, StringFormat='{0}g'}" Grid.Column="2"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
     </Grid>
 </ContentView>
