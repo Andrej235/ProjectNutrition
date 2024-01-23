@@ -61,6 +61,10 @@ namespace ProjectNutrition.Views
                 @this.newProductInputWrapper.BindingContext = @this.NewProduct; 
             });
 
-        public void Save() => SaveCommand.Execute(NewProduct);
+        public void Save()
+        {
+            SaveCommand.Execute(NewProduct);
+            NewProduct = new() { Name = DefaultProductName};
+        }
     }
 }

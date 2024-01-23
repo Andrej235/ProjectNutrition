@@ -74,6 +74,9 @@ namespace ProjectNutrition.ViewModels
                     return new(first.Id, first.Meal, first.Product, x.Sum(x => x.Amount));
                 });
             SaveCommand?.Execute(NewMeal);
+
+            NewMeal = new() { Name = defaultMealName };
+            NewMealProducts = [];
         }
     }
 }

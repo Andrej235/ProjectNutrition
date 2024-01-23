@@ -45,7 +45,7 @@ namespace ProjectNutrition.Views
 
         public void Add(Meal mealToAdd)
         {
-            if (BindingContext is MealSearchViewModel vm)
+            if (wrapper.BindingContext is MealSearchViewModel vm)
                 vm.Meals.Add(mealToAdd);
         }
 
